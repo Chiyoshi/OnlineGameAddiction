@@ -26,7 +26,7 @@
       "explanation": "ログインキャンペーン情報照会API"
     },
     {
-      "name": "redstone.api.redslogin.state",
+      "name": "redstone.api.redslogin",
       "url": "https://api.redstoneonline.jp/service/pe/redslogin",
       "explanation": "ログインキャンペーンAPI"
     },
