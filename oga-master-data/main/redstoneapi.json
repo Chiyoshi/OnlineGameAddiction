@@ -1,0 +1,49 @@
+{
+  "redstoneapi": [
+    {
+      "key": "redstone.url.login",
+      "url": "https://www.redstoneonline.jp/signin/1?returnurl=https%3A%2F%2Fwww.redstoneonline.jp%2Fbbs/1/lists",
+      "explanation": "レッドストーン公式のログイン画面URL"
+    },
+    {
+      "key": "redstone.api.authenticate",
+      "url": "https://api.redstoneonline.jp/mbs/authenticate",
+      "explanation": "ログイン認証API"
+    },
+    {
+      "key": "redstone.api.wallet",
+      "url": "https://api.redstoneonline.jp/mbs/wallet",
+      "explanation": "残高照会API"
+    },
+    {
+      "key": "redstone.api.dailyreward",
+      "url": "https://api.redstoneonline.jp/service/pe/daily",
+      "explanation": "DailyRewardAPI"
+    },
+    {
+      "key": "redstone.api.redslogin.state",
+      "url": "https://api.redstoneonline.jp/service/pe/redslogin-state",
+      "explanation": "ログインキャンペーン情報照会API"
+    },
+    {
+      "key": "redstone.api.redslogin.state",
+      "url": "https://api.redstoneonline.jp/service/pe/redslogin",
+      "explanation": "ログインキャンペーンAPI"
+    },
+    {
+      "key": "redstone.api.roulette.state",
+      "url": "https://api.redstoneonline.jp/service/pe/roulette-state",
+      "explanation": "ルーレット情報照会API"
+    },
+    {
+      "key": "redstone.api.roulette.coin",
+      "url": "https://api.redstoneonline.jp/service/pe/roulette-coin",
+      "explanation": "ルーレットコイン取得API"
+    },
+    {
+      "key": "redstone.api.roulette",
+      "url": "https://api.redstoneonline.jp/service/pe/roulette",
+      "explanation": "ルーレットAPI"
+    }
+  ]
+}
