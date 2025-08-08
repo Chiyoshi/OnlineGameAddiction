@@ -3,20 +3,20 @@ package com.oga.app.common.utils;
 public class StringUtil {
 
 	/**
-	 * •¶š—ñ‚ªnull‚Ü‚½‚Í‹ó‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚·‚é
+	 * æ–‡å­—åˆ—ãŒnullã¾ãŸã¯ç©ºã‹ã©ã†ã‹ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 	 * 
-	 * @param str •¶š—ñ
-	 * @return TrueF‹óAFalseF‹óˆÈŠO
+	 * @param str æ–‡å­—åˆ—
+	 * @return Trueï¼šç©ºã€Falseï¼šç©ºä»¥å¤–
 	 */
 	public static boolean isNullOrEmpty(String str) {
 		return str == null || str.isEmpty();
 	}
 
 	/**
-	 * •¶š—ñ‚ªnull‚Ü‚½‚Í‹ó‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚·‚é
+	 * æ–‡å­—åˆ—ãŒnullã¾ãŸã¯ç©ºã‹ã©ã†ã‹ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 	 * 
-	 * @param str •¶š—ñ
-	 * @return TrueF‹ó”’‚Ì‚İAFalseF‹ó”’ˆÈŠO
+	 * @param str æ–‡å­—åˆ—
+	 * @return Trueï¼šç©ºç™½ã®ã¿ã€Falseï¼šç©ºç™½ä»¥å¤–
 	 */
 	public static boolean isNullOrWhitespace(String str) {
 		return str == null || str.trim().isEmpty();

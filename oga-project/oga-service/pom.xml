@@ -17,6 +17,11 @@
 		</dependency>
 		<dependency>
 			<groupId>online-game-addiction</groupId>
+			<artifactId>oga-master</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>online-game-addiction</groupId>
 			<artifactId>oga-dao</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
@@ -28,6 +33,5 @@
 			<version>4.34.0</version>
 		</dependency>
 
-		
 	</dependencies>
 </project>

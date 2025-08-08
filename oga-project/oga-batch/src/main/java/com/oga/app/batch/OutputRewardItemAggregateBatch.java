@@ -1,147 +1,147 @@
-package com.oga.app.batch;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import com.oga.app.common.enums.ServiceType;
-import com.oga.app.common.exception.ApplicationException;
-import com.oga.app.common.exception.SystemException;
-import com.oga.app.common.prop.OGAProperty;
-import com.oga.app.common.utils.FileUtil;
-import com.oga.app.common.utils.LogUtil;
-import com.oga.app.common.utils.StringUtil;
-import com.oga.app.dataaccess.entity.Campaign;
-import com.oga.app.service.provider.CampaignProvider;
-import com.oga.app.service.provider.DailyWorkResultProvider;
-
-public class OutputRewardItemAggregateBatch extends BaseBatch {
-
-	/** CSVŠi”[æƒfƒBƒŒƒNƒgƒŠ */
-	private String OTUPUT_CSV_PATH = null;
-
-	/** ƒLƒƒƒ“ƒy[ƒ“î•ñ */
-	private Campaign campaign;
-
-	@Override
-	public void pre(String[] args) throws ApplicationException, SystemException {
-
-		// ˆø”ƒ`ƒFƒbƒN
-		if (args.length < 1) {
-			throw new ApplicationException("ˆø”‚ªİ’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñBFƒLƒƒƒ“ƒy[ƒ“ID");
-		}
-
-		// ƒLƒƒƒ“ƒy[ƒ“ID‚ğİ’è‚·‚é
-		String campaignId = args[0];
-
-		// ŠÂ‹«•Ï”‚©‚çƒpƒX‚ğæ“¾‚·‚é
-		String outputCsvFolder = System.getProperty("output.dir");
-
-		if (StringUtil.isNullOrEmpty(outputCsvFolder)) {
-			throw new SystemException("ŠÂ‹«•Ï”‚ªİ’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñBFoutput.dir");
-		}
-
-		// ƒfƒBƒŒƒNƒgƒŠ‘¶İƒ`ƒFƒbƒN
-		if (!FileUtil.isExists(outputCsvFolder)) {
-			throw new ApplicationException("CSVo—Íæ‚ÌƒtƒHƒ‹ƒ_‚ª‘¶İ‚µ‚Ü‚¹‚ñBF" + outputCsvFolder);
-		}
-
-		//		// ƒ‹[ƒŒƒbƒg‚ÌƒfƒBƒŒƒNƒgƒŠ‚ª‘¶İ‚µ‚È‚¢ê‡‚Íì¬‚·‚é
-		//		outputCsvPath = outputCsvPath + "\\roulette";
-		//
-		//		if (!FileUtil.isExists(outputCsvPath)) {
-		//			FileUtil.createDirectory(outputCsvPath);
-		//		}
-
-		// ƒLƒƒƒ“ƒy[ƒ“î•ñ‚ğæ“¾‚·‚é
-		this.campaign = CampaignProvider.getInstance().getCampaign(campaignId);
-
-		// ƒLƒƒƒ“ƒy[ƒ“î•ñ‚ª“o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÍƒGƒ‰[‚Æ‚·‚é
-		if (this.campaign == null) {
-			throw new ApplicationException("‘ÎÛ‚ÌƒLƒƒƒ“ƒy[ƒ“î•ñ‚ª“o˜^‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ");
-		}
-
-		// CSVƒtƒ@ƒCƒ‹ƒpƒX
-		this.OTUPUT_CSV_PATH = outputCsvFolder + "\\" + this.campaign.getCampaignId() + ".csv";
-	}
-
-	@Override
-	public void exec() throws ApplicationException, SystemException {
-
-		// ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚©‚çWŒv‘ÎÛ‚ÌƒAƒCƒeƒ€ˆê——‚ğæ“¾‚·‚é
-		String items = null;
-
-		// ƒLƒƒƒ“ƒy[ƒ“í•Ê‚ªu1FƒƒOƒCƒ“ƒLƒƒƒ“ƒy[ƒ“v‚Ìê‡
-		if (ServiceType.LOGINCAMPAIGN.getValue().equals(campaign.getCampaignType())) {
-			items = OGAProperty.getProperty("redstone.logincampaign.aggregate.items");
-		}
-		// ƒLƒƒƒ“ƒy[ƒ“í•Ê‚ªu4Fƒ‹[ƒŒƒbƒgv‚Ìê‡
-		else if (ServiceType.ROULETTE.getValue().equals(campaign.getCampaignType())) {
-			items = OGAProperty.getProperty("redstone.roulette.aggregate.items");
-		}
-		
-		
-		LogUtil.info("[WŒv‘ÎÛ] [" + items + "]");
-		LogUtil.info("[o—Íæ] [" + this.OTUPUT_CSV_PATH + "]");
-
-		// ƒJƒ“ƒ}‹æØ‚è‚Å•ªŠ„‚·‚é
-		List<String> targetRewardItemList = Arrays.asList(items.split(","));
-
-		// ‘ÎÛƒLƒƒƒ“ƒy[ƒ“‚ÌŠl“¾ƒAƒCƒeƒ€‚ÌWŒvŒ‹‰Ê‚ğæ“¾‚·‚é
-		List<Object[]> rewardItemAggregateList = DailyWorkResultProvider.getInstance()
-				.getRewardItemAggregateList(this.campaign, targetRewardItemList);
-
-		// ƒwƒbƒ_[
-		List<String> header = new ArrayList<String>();
-		header.addAll(targetRewardItemList);
-		header.add(0, "ƒ†[ƒUID");
-
-		// CSVƒtƒ@ƒCƒ‹o—Í
-		FileUtil.writeCsvFile(this.OTUPUT_CSV_PATH, header.toArray(), rewardItemAggregateList, false);
-
-//		// <ƒ†[ƒUID, <ƒAƒCƒeƒ€–¼, ”—Ê>>
-//		Map<String, Map<String, Integer>> userItemMap = new LinkedHashMap<>();
+//package com.oga.app.batch;
 //
-//		// ƒ†[ƒU[ID‚²‚Æ‚ÉƒAƒCƒeƒ€‚Ì”—Ê‚ğWŒv‚·‚é
-//		for (RouletteRewardItemDto rouletteRewardItemDto : rouletteRewardItemList) {
+//import java.util.ArrayList;
+//import java.util.Arrays;
+//import java.util.List;
 //
-//			String userId = rouletteRewardItemDto.getUserId();
-//			String itemName = rouletteRewardItemDto.getRewardItem();
-//			int quantity = rouletteRewardItemDto.getCount();
+//import com.oga.app.common.enums.ServiceType;
+//import com.oga.app.common.exception.ApplicationException;
+//import com.oga.app.common.exception.SystemException;
+//import com.oga.app.common.prop.OgaProperty;
+//import com.oga.app.common.utils.FileUtil;
+//import com.oga.app.common.utils.LogUtil;
+//import com.oga.app.common.utils.StringUtil;
+//import com.oga.app.dataaccess.entity.Campaign;
+//import com.oga.app.service.provider.CampaignProvider;
+//import com.oga.app.service.provider.DailyWorkResultProvider;
 //
-//			// ƒ}ƒbƒv‚Éƒ†[ƒUID‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍŠi”[‚·‚é
-//			if (!userItemMap.containsKey(userId)) {
-//				userItemMap.put(userId, new HashMap<String, Integer>());
-//			}
+//public class OutputRewardItemAggregateBatch extends BaseBatch {
 //
-//			Map<String, Integer> itemMap = userItemMap.get(userId);
-//			if (!itemMap.containsKey(itemName)) {
-//				itemMap.put(itemName, 0);
-//			}
-//			itemMap.put(itemName, itemMap.get(itemName) + quantity);
+//	/** CSVæ ¼ç´å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª */
+//	private String OTUPUT_CSV_PATH = null;
+//
+//	/** ã‚­ãƒ£ãƒ³ãƒšãƒ¼ãƒ³æƒ…å ± */
+//	private Campaign campaign;
+//
+//	@Override
+//	public void pre(String[] args) throws ApplicationException, SystemException {
+//
+//		// å¼•æ•°ãƒã‚§ãƒƒã‚¯
+//		if (args.length < 1) {
+//			throw new ApplicationException("å¼•æ•°ãŒè¨­å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚ï¼šã‚­ãƒ£ãƒ³ãƒšãƒ¼ãƒ³ID");
 //		}
 //
-//		// Šeƒ†[ƒU[‚Ìƒf[ƒ^‚ğo—Í
-//		for (Map.Entry<String, Map<String, Integer>> entry : userItemMap.entrySet()) {
-//			Map<String, Integer> itemQuantities = entry.getValue();
+//		// ã‚­ãƒ£ãƒ³ãƒšãƒ¼ãƒ³IDã‚’è¨­å®šã™ã‚‹
+//		String campaignId = args[0];
 //
-//			System.out.print("\"" + entry.getKey() + "\"");
+//		// ç’°å¢ƒå¤‰æ•°ã‹ã‚‰ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
+//		String outputCsvFolder = System.getProperty("output.dir");
 //
-//			for (String item : targetRewardItemList) {
-//				// ƒAƒCƒeƒ€‚ª‘¶İ‚µ‚È‚¢ê‡‚Í0
-//				int quantity = itemQuantities.containsKey(item) ? itemQuantities.get(item) : 0;
-//				System.out.print(",\"" + quantity + "\"");
-//			}
-//			System.out.println();
+//		if (StringUtil.isNullOrEmpty(outputCsvFolder)) {
+//			throw new SystemException("ç’°å¢ƒå¤‰æ•°ãŒè¨­å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚ï¼šoutput.dir");
 //		}
-	}
-
-	@Override
-	public void post() throws ApplicationException, SystemException {
-	}
-
-	public static void main(String[] args) {
-		new OutputRewardItemAggregateBatch().run(args);
-	}
-
-}
+//
+//		// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå­˜åœ¨ãƒã‚§ãƒƒã‚¯
+//		if (!FileUtil.isExists(outputCsvFolder)) {
+//			throw new ApplicationException("CSVå‡ºåŠ›å…ˆã®ãƒ•ã‚©ãƒ«ãƒ€ãŒå­˜åœ¨ã—ã¾ã›ã‚“ã€‚ï¼š" + outputCsvFolder);
+//		}
+//
+//		//		// ãƒ«ãƒ¼ãƒ¬ãƒƒãƒˆã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ä½œæˆã™ã‚‹
+//		//		outputCsvPath = outputCsvPath + "\\roulette";
+//		//
+//		//		if (!FileUtil.isExists(outputCsvPath)) {
+//		//			FileUtil.createDirectory(outputCsvPath);
+//		//		}
+//
+//		// ã‚­ãƒ£ãƒ³ãƒšãƒ¼ãƒ³æƒ…å ±ã‚’å–å¾—ã™ã‚‹
+//		this.campaign = CampaignProvider.getInstance().getCampaign(campaignId);
+//
+//		// ã‚­ãƒ£ãƒ³ãƒšãƒ¼ãƒ³æƒ…å ±ãŒç™»éŒ²ã•ã‚Œã¦ã„ãªã„å ´åˆã¯ã‚¨ãƒ©ãƒ¼ã¨ã™ã‚‹
+//		if (this.campaign == null) {
+//			throw new ApplicationException("å¯¾è±¡ã®ã‚­ãƒ£ãƒ³ãƒšãƒ¼ãƒ³æƒ…å ±ãŒç™»éŒ²ã•ã‚Œã¦ã„ã¾ã›ã‚“");
+//		}
+//
+//		// CSVãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
+//		this.OTUPUT_CSV_PATH = outputCsvFolder + "\\" + this.campaign.getCampaignId() + ".csv";
+//	}
+//
+//	@Override
+//	public void exec() throws ApplicationException, SystemException {
+//
+//		// ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰é›†è¨ˆå¯¾è±¡ã®ã‚¢ã‚¤ãƒ†ãƒ ä¸€è¦§ã‚’å–å¾—ã™ã‚‹
+//		String items = null;
+//
+//		// ã‚­ãƒ£ãƒ³ãƒšãƒ¼ãƒ³ç¨®åˆ¥ãŒã€Œ1ï¼šãƒ­ã‚°ã‚¤ãƒ³ã‚­ãƒ£ãƒ³ãƒšãƒ¼ãƒ³ã€ã®å ´åˆ
+//		if (ServiceType.LOGINCAMPAIGN.getValue().equals(campaign.getCampaignType())) {
+//			items = OgaProperty.getProperty("redstone.logincampaign.aggregate.items");
+//		}
+//		// ã‚­ãƒ£ãƒ³ãƒšãƒ¼ãƒ³ç¨®åˆ¥ãŒã€Œ4ï¼šãƒ«ãƒ¼ãƒ¬ãƒƒãƒˆã€ã®å ´åˆ
+//		else if (ServiceType.ROULETTE.getValue().equals(campaign.getCampaignType())) {
+//			items = OgaProperty.getProperty("redstone.roulette.aggregate.items");
+//		}
+//		
+//		
+//		LogUtil.info("[é›†è¨ˆå¯¾è±¡] [" + items + "]");
+//		LogUtil.info("[å‡ºåŠ›å…ˆ] [" + this.OTUPUT_CSV_PATH + "]");
+//
+//		// ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã§åˆ†å‰²ã™ã‚‹
+//		List<String> targetRewardItemList = Arrays.asList(items.split(","));
+//
+//		// å¯¾è±¡ã‚­ãƒ£ãƒ³ãƒšãƒ¼ãƒ³ã®ç²å¾—ã‚¢ã‚¤ãƒ†ãƒ ã®é›†è¨ˆçµæœã‚’å–å¾—ã™ã‚‹
+//		List<Object[]> rewardItemAggregateList = DailyWorkResultProvider.getInstance()
+//				.getRewardItemAggregateList(this.campaign, targetRewardItemList);
+//
+//		// ãƒ˜ãƒƒãƒ€ãƒ¼
+//		List<String> header = new ArrayList<String>();
+//		header.addAll(targetRewardItemList);
+//		header.add(0, "ãƒ¦ãƒ¼ã‚¶ID");
+//
+//		// CSVãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›
+//		FileUtil.writeCsvFile(this.OTUPUT_CSV_PATH, header.toArray(), rewardItemAggregateList, false);
+//
+////		// <ãƒ¦ãƒ¼ã‚¶ID, <ã‚¢ã‚¤ãƒ†ãƒ å, æ•°é‡>>
+////		Map<String, Map<String, Integer>> userItemMap = new LinkedHashMap<>();
+////
+////		// ãƒ¦ãƒ¼ã‚¶ãƒ¼IDã”ã¨ã«ã‚¢ã‚¤ãƒ†ãƒ ã®æ•°é‡ã‚’é›†è¨ˆã™ã‚‹
+////		for (RouletteRewardItemDto rouletteRewardItemDto : rouletteRewardItemList) {
+////
+////			String userId = rouletteRewardItemDto.getUserId();
+////			String itemName = rouletteRewardItemDto.getRewardItem();
+////			int quantity = rouletteRewardItemDto.getCount();
+////
+////			// ãƒãƒƒãƒ—ã«ãƒ¦ãƒ¼ã‚¶IDãŒå­˜åœ¨ã—ãªã„å ´åˆã¯æ ¼ç´ã™ã‚‹
+////			if (!userItemMap.containsKey(userId)) {
+////				userItemMap.put(userId, new HashMap<String, Integer>());
+////			}
+////
+////			Map<String, Integer> itemMap = userItemMap.get(userId);
+////			if (!itemMap.containsKey(itemName)) {
+////				itemMap.put(itemName, 0);
+////			}
+////			itemMap.put(itemName, itemMap.get(itemName) + quantity);
+////		}
+////
+////		// å„ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®ãƒ‡ãƒ¼ã‚¿ã‚’å‡ºåŠ›
+////		for (Map.Entry<String, Map<String, Integer>> entry : userItemMap.entrySet()) {
+////			Map<String, Integer> itemQuantities = entry.getValue();
+////
+////			System.out.print("\"" + entry.getKey() + "\"");
+////
+////			for (String item : targetRewardItemList) {
+////				// ã‚¢ã‚¤ãƒ†ãƒ ãŒå­˜åœ¨ã—ãªã„å ´åˆã¯0
+////				int quantity = itemQuantities.containsKey(item) ? itemQuantities.get(item) : 0;
+////				System.out.print(",\"" + quantity + "\"");
+////			}
+////			System.out.println();
+////		}
+//	}
+//
+//	@Override
+//	public void post() throws ApplicationException, SystemException {
+//	}
+//
+//	public static void main(String[] args) {
+//		new OutputRewardItemAggregateBatch().run(args);
+//	}
+//
+//}

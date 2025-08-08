@@ -9,21 +9,21 @@ import com.oga.app.dataaccess.dao.mapper.UserMapper;
 import com.oga.app.dataaccess.entity.User;
 
 /**
- * ƒ†[ƒUî•ñƒe[ƒuƒ‹‚ğ‘€ì‚·‚éƒNƒ‰ƒX
+ * ãƒ¦ãƒ¼ã‚¶æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’æ“ä½œã™ã‚‹ã‚¯ãƒ©ã‚¹
  */
-public class UserDao extends BaseDao {
+public class UserDao extends DaoBase {
 
-	/** ƒ†[ƒUî•ñƒe[ƒuƒ‹DAO */
+	/** ãƒ¦ãƒ¼ã‚¶æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«DAO */
 	private static UserDao userDao;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	private UserDao() {
 	}
 
 	/**
-	 * ƒCƒ“ƒXƒ^ƒ“ƒXæ“¾
+	 * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å–å¾—
 	 */
 	public static synchronized UserDao getInstance() {
 		if (userDao == null) {
@@ -33,10 +33,10 @@ public class UserDao extends BaseDao {
 	}
 
 	/**
-	 * åƒL[‚Åw’è‚µ‚½ƒ†[ƒUî•ñ‚ğæ“¾‚·‚é
+	 * ä¸»ã‚­ãƒ¼ã§æŒ‡å®šã—ãŸãƒ¦ãƒ¼ã‚¶æƒ…å ±ã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param userId
-	 * @return
+	 * @return ãƒ¦ãƒ¼ã‚¶æƒ…å ±
 	 */
 	public User findByPKey(String userId) {
 		SqlSessionFactory sqlSessionFactory = super.getSqlSessionFactory();
@@ -48,9 +48,9 @@ public class UserDao extends BaseDao {
 	}
 
 	/**
-	 * ƒ†[ƒUî•ñƒŠƒXƒg‚ğæ“¾‚·‚é
+	 * ãƒ¦ãƒ¼ã‚¶æƒ…å ±ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return
+	 * @return ãƒ¦ãƒ¼ã‚¶æƒ…å ±ãƒªã‚¹ãƒˆ
 	 */
 	public List<User> findAll() {
 		SqlSessionFactory sqlSessionFactory = super.getSqlSessionFactory();
@@ -62,75 +62,59 @@ public class UserDao extends BaseDao {
 	}
 
 	/**
-	 * ƒ†[ƒUî•ñi“úŸì‹Æƒtƒ‰ƒO‚ğŠÜ‚ŞjƒŠƒXƒg‚ğæ“¾‚·‚é
+	 * ãƒ¦ãƒ¼ã‚¶æƒ…å ±ã‚’ç™»éŒ²ã™ã‚‹
 	 * 
-	 * @return
-	 */
-	public List<User> findByUserInfoList() {
-		SqlSessionFactory sqlSessionFactory = super.getSqlSessionFactory();
-
-		try (SqlSession session = sqlSessionFactory.openSession()) {
-			UserMapper mapper = session.getMapper(UserMapper.class);
-			return mapper.findByUserInfoList();
-		}
-	}
-
-	/**
-	 * ƒ†[ƒUî•ñ‚ğ“o˜^‚·‚é
-	 * 
-	 * @return
+	 * @param user ãƒ¦ãƒ¼ã‚¶æƒ…å ±
 	 */
 	public void insert(User user) {
 		SqlSessionFactory sqlSessionFactory = super.getSqlSessionFactory();
 
 		try (SqlSession session = sqlSessionFactory.openSession()) {
 			UserMapper mapper = session.getMapper(UserMapper.class);
-			mapper.insertUser(user);
+			mapper.insert(user);
 			session.commit();
 		}
 	}
 
 	/**
-	 * ƒ†[ƒUî•ñ‚ğXV‚·‚é
+	 * ãƒ¦ãƒ¼ã‚¶æƒ…å ±ã‚’æ›´æ–°ã™ã‚‹
 	 * 
-	 * @return
+	 * @param user ãƒ¦ãƒ¼ã‚¶æƒ…å ±
 	 */
 	public void update(User user) {
 		SqlSessionFactory sqlSessionFactory = super.getSqlSessionFactory();
 
 		try (SqlSession session = sqlSessionFactory.openSession()) {
 			UserMapper mapper = session.getMapper(UserMapper.class);
-			mapper.updateUser(user);
+			mapper.update(user);
 			session.commit();
 		}
 	}
 
 	/**
-	 * w’è‚µ‚½ƒ†[ƒUî•ñ‚ğíœ‚·‚é
+	 * æŒ‡å®šã—ãŸãƒ¦ãƒ¼ã‚¶æƒ…å ±ã‚’å‰Šé™¤ã™ã‚‹
 	 * 
-	 * @return
+	 * @param userId
 	 */
 	public void delete(String userId) {
 		SqlSessionFactory sqlSessionFactory = super.getSqlSessionFactory();
 
 		try (SqlSession session = sqlSessionFactory.openSession()) {
 			UserMapper mapper = session.getMapper(UserMapper.class);
-			mapper.deleteUser(userId);
+			mapper.delete(userId);
 			session.commit();
 		}
 	}
 
 	/**
-	 * ƒ†[ƒUî•ñ‚ğ‚·‚×‚Äíœ‚·‚é
-	 * 
-	 * @return
+	 * ãƒ¦ãƒ¼ã‚¶æƒ…å ±ã‚’ã™ã¹ã¦å‰Šé™¤ã™ã‚‹
 	 */
 	public void delete() {
 		SqlSessionFactory sqlSessionFactory = super.getSqlSessionFactory();
 
 		try (SqlSession session = sqlSessionFactory.openSession()) {
 			UserMapper mapper = session.getMapper(UserMapper.class);
-			mapper.deleteAllUser();
+			mapper.deleteAll();
 			session.commit();
 		}
 	}

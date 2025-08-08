@@ -2,12 +2,12 @@ package com.oga.app.common.enums;
 
 public enum Status {
 
-	/** 惓忢廔椆 */
-	SUCCESS("惓忢廔椆", "0"),
-	/** 堎忢廔椆 */
-	ERROR("堎忢廔椆", "1"),
-	/** 僗僉僢僾 */
-	SKIP("僗僉僢僾", "2");
+	/** 姝ｅ父绲備簡 */
+	SUCCESS("姝ｅ父绲備簡", "0"),
+	/** 鐣板父绲備簡 */
+	ERROR("鐣板父绲備簡", "1"),
+	/** 銈广偔銉冦儣 */
+	SKIP("銈广偔銉冦儣", "2");
 
 	private final String name;
 
@@ -27,9 +27,9 @@ public enum Status {
 	}
 
 	/**
-	 * 僗僥乕僞僗僐乕僪榑棟柤傪庢摼偡傞
+	 * 銈广儐銉笺偪銈广偝銉笺儔璜栫悊鍚嶃倰鍙栧緱銇欍倠
 	 * 
-	 * @param code 僗僥乕僞僗僐乕僪 
+	 * @param code 銈广儐銉笺偪銈广偝銉笺儔 
 	 * @return
 	 */
 	public static String getName(String value) {

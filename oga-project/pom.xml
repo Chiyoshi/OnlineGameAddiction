@@ -13,6 +13,7 @@
 		<module>oga-common</module>
 		<module>oga-dao</module>
 		<module>oga-batch</module>
+		<module>oga-master</module>
 	</modules>
 
 <!-- プロジェクト全体のプロパティ -->

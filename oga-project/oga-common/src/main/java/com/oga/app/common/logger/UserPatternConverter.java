@@ -22,10 +22,10 @@ public class UserPatternConverter extends LogEventPatternConverter {
 
 	@Override
 	public void format(LogEvent event, StringBuilder toAppendTo) {
-		// ƒ†[ƒU[–¼‚ğæ“¾‚·‚é
+		// ãƒ¦ãƒ¼ã‚¶ãƒ¼åã‚’å–å¾—ã™ã‚‹
 		String userId = System.getProperty("userid");
 
-		// ƒƒO‚É’Ç‰Á‚·‚é
+		// ãƒ­ã‚°ã«è¿½åŠ ã™ã‚‹
 		if (!StringUtil.isNullOrEmpty(userId)) {
 			toAppendTo.append("[" + userId + "]");
 		}

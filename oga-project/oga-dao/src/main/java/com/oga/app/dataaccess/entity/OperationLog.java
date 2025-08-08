@@ -1,38 +1,41 @@
 package com.oga.app.dataaccess.entity;
 
 /**
- * ‘€ìƒƒO
+ * æ“ä½œãƒ­ã‚°
  */
 public class OperationLog {
 
 	/** ID */
 	private String id;
 
-	/** ‘€ìƒR[ƒh */
+	/** æ“ä½œè€… */
+	private String operator;
+
+	/** æ“ä½œã‚³ãƒ¼ãƒ‰ */
 	private String operationCode;
 
-	/** ‘€ì“ú•t */
-	private String operationDate;
+	/** æ“ä½œæ—¥æ™‚ */
+	private String operationDateTime;
 
-	/** ƒƒOƒŒƒxƒ‹ */
+	/** ãƒ­ã‚°ãƒ¬ãƒ™ãƒ« */
 	private String level;
 
-	/** ƒƒOƒƒbƒZ[ƒW */
+	/** ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ */
 	private String message;
 
-	/** ƒ†[ƒUID */
+	/** ãƒ¦ãƒ¼ã‚¶ID */
 	private String userId;
 
-	/** “o˜^“ú */
+	/** ç™»éŒ²æ—¥ */
 	private String registrationDate;
 
-	/** XV“ú */
+	/** æ›´æ–°æ—¥ */
 	private String updateDate;
 
-	/** íœƒtƒ‰ƒO */
+	/** å‰Šé™¤ãƒ•ãƒ©ã‚° */
 	private String deleteFlg;
 
-	/** íœ“ú */
+	/** å‰Šé™¤æ—¥ */
 	private String deleteDate;
 
 	/**
@@ -43,10 +46,24 @@ public class OperationLog {
 	}
 
 	/**
-	 * @param id ƒZƒbƒg‚·‚é id
+	 * @param id ã‚»ãƒƒãƒˆã™ã‚‹ id
 	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return operator
+	 */
+	public String getOperator() {
+		return operator;
+	}
+
+	/**
+	 * @param operator ã‚»ãƒƒãƒˆã™ã‚‹ operator
+	 */
+	public void setOperator(String operator) {
+		this.operator = operator;
 	}
 
 	/**
@@ -57,24 +74,24 @@ public class OperationLog {
 	}
 
 	/**
-	 * @param operationCode ƒZƒbƒg‚·‚é operationCode
+	 * @param operationCode ã‚»ãƒƒãƒˆã™ã‚‹ operationCode
 	 */
 	public void setOperationCode(String operationCode) {
 		this.operationCode = operationCode;
 	}
 
 	/**
-	 * @return operationDate
+	 * @return operationDateTime
 	 */
-	public String getOperationDate() {
-		return operationDate;
+	public String getOperationDateTime() {
+		return operationDateTime;
 	}
 
 	/**
-	 * @param operationDate ƒZƒbƒg‚·‚é operationDate
+	 * @param operationDateTime ã‚»ãƒƒãƒˆã™ã‚‹ operationDateTime
 	 */
-	public void setOperationDate(String operationDate) {
-		this.operationDate = operationDate;
+	public void setOperationDateTime(String operationDateTime) {
+		this.operationDateTime = operationDateTime;
 	}
 
 	/**
@@ -85,7 +102,7 @@ public class OperationLog {
 	}
 
 	/**
-	 * @param level ƒZƒbƒg‚·‚é level
+	 * @param level ã‚»ãƒƒãƒˆã™ã‚‹ level
 	 */
 	public void setLevel(String level) {
 		this.level = level;
@@ -99,7 +116,7 @@ public class OperationLog {
 	}
 
 	/**
-	 * @param message ƒZƒbƒg‚·‚é message
+	 * @param message ã‚»ãƒƒãƒˆã™ã‚‹ message
 	 */
 	public void setMessage(String message) {
 		this.message = message;
@@ -113,7 +130,7 @@ public class OperationLog {
 	}
 
 	/**
-	 * @param userId ƒZƒbƒg‚·‚é userId
+	 * @param userId ã‚»ãƒƒãƒˆã™ã‚‹ userId
 	 */
 	public void setUserId(String userId) {
 		this.userId = userId;
@@ -127,7 +144,7 @@ public class OperationLog {
 	}
 
 	/**
-	 * @param registrationDate ƒZƒbƒg‚·‚é registrationDate
+	 * @param registrationDate ã‚»ãƒƒãƒˆã™ã‚‹ registrationDate
 	 */
 	public void setRegistrationDate(String registrationDate) {
 		this.registrationDate = registrationDate;
@@ -141,7 +158,7 @@ public class OperationLog {
 	}
 
 	/**
-	 * @param updateDate ƒZƒbƒg‚·‚é updateDate
+	 * @param updateDate ã‚»ãƒƒãƒˆã™ã‚‹ updateDate
 	 */
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
@@ -155,7 +172,7 @@ public class OperationLog {
 	}
 
 	/**
-	 * @param deleteFlg ƒZƒbƒg‚·‚é deleteFlg
+	 * @param deleteFlg ã‚»ãƒƒãƒˆã™ã‚‹ deleteFlg
 	 */
 	public void setDeleteFlg(String deleteFlg) {
 		this.deleteFlg = deleteFlg;
@@ -169,9 +186,10 @@ public class OperationLog {
 	}
 
 	/**
-	 * @param deleteDate ƒZƒbƒg‚·‚é deleteDate
+	 * @param deleteDate ã‚»ãƒƒãƒˆã™ã‚‹ deleteDate
 	 */
 	public void setDeleteDate(String deleteDate) {
 		this.deleteDate = deleteDate;
 	}
+
 }

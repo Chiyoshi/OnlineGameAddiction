@@ -8,42 +8,51 @@ import java.time.temporal.TemporalAdjusters;
 
 public class DateUtil {
 
-	/** “ú•t‘® yyyy/MM/dd HH:mm:ss */
+	/** æ—¥ä»˜æ›¸å¼ yyyy/MM/dd HH:mm:ss */
 	public static final String DATE_FORMAT_YYYYMMDDHH24MISS = "yyyy/MM/dd HH:mm:ss";
 
-	/** “ú•t‘® yyyy/MM/dd */
+	/** æ—¥ä»˜æ›¸å¼ yyyy/MM/dd */
 	public static final String DATE_FORMAT_YYYYMMDD = "yyyyMMdd";
 
-	/** “ú•t‘® yyyyMMdd */
+	/** æ—¥ä»˜æ›¸å¼ yyyy-MM-dd */
 	public static final String DATE_FORMAT_YYYYMMDD_2 = "yyyy-MM-dd";
 
-	/** “ú•t‘® yyyyMMdd */
+	/** æ—¥ä»˜æ›¸å¼ yyyyMMdd */
 	public static final String DATE_FORMAT_YYYYMM = "yyyyMM";
 
 	/**
-	 * Šî€“ú‚ğæ“¾‚·‚é
+	 * åŸºæº–æ—¥ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return Šî€“úYYYYMMDD
+	 * @return åŸºæº–æ—¥YYYYMMDD
 	 */
 	public static String getBaseDate() {
-		return getBaseDate(DATE_FORMAT_YYYYMMDD_2);
+		return getBaseDate(DATE_FORMAT_YYYYMMDD);
 	}
 
 	/**
-	 * ‘®‚ğw’è‚µ‚ÄŠî€“ú‚ğæ“¾‚·‚é
+	 * æ›¸å¼ã‚’æŒ‡å®šã—ã¦åŸºæº–æ—¥ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param pattern ‘®
-	 * @return Šî€“ú
+	 * @param pattern æ›¸å¼
+	 * @return åŸºæº–æ—¥(yyyyMMddå½¢å¼)
 	 */
 	public static String getBaseDate(String pattern) {
 		return formatDate(getCurrentDate(), pattern);
 	}
 
 	/**
-	 * “ú•t‚ğw’è‚µ‚½‘®‚Å•¶š—ñ‚É•ÏŠ·
+	 * åŸºæº–æœˆã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param date    “ú•t
-	 * @param pattern “ú•t‘®
+	 * @return åŸºæº–æœˆ(yyyyMMå½¢å¼)
+	 */
+	public static String getBaseMonth() {
+		return formatDate(getCurrentDate(), DATE_FORMAT_YYYYMM);
+	}
+
+	/**
+	 * æ—¥ä»˜ã‚’æŒ‡å®šã—ãŸæ›¸å¼ã§æ–‡å­—åˆ—ã«å¤‰æ›
+	 * 
+	 * @param date    æ—¥ä»˜
+	 * @param pattern æ—¥ä»˜æ›¸å¼
 	 * @return
 	 */
 	public static String formatDate(LocalDate date, String pattern) {
@@ -52,10 +61,10 @@ public class DateUtil {
 	}
 
 	/**
-	 * “ú•t•¶š—ñ‚ğw’è‚µ‚½‘®‚ÅLocalDate‚É•ÏŠ·
+	 * æ—¥ä»˜æ–‡å­—åˆ—ã‚’æŒ‡å®šã—ãŸæ›¸å¼ã§LocalDateã«å¤‰æ›
 	 * 
-	 * @param dateStr •¶š—ñ“ú•tYYYYMMDD
-	 * @param pattern “ú•t‘®
+	 * @param dateStr æ–‡å­—åˆ—æ—¥ä»˜YYYYMMDD
+	 * @param pattern æ—¥ä»˜æ›¸å¼
 	 * @return
 	 */
 	public static String parseDateStr(String dateStr, String pattern) {
@@ -63,10 +72,10 @@ public class DateUtil {
 	}
 
 	/**
-	 * “ú•t•¶š—ñ‚ğw’è‚µ‚½‘®‚ÅLocalDate‚É•ÏŠ·
+	 * æ—¥ä»˜æ–‡å­—åˆ—ã‚’æŒ‡å®šã—ãŸæ›¸å¼ã§LocalDateã«å¤‰æ›
 	 * 
-	 * @param dateStr •¶š—ñ“ú•tYYYYMMDD
-	 * @param pattern “ú•t‘®
+	 * @param dateStr æ–‡å­—åˆ—æ—¥ä»˜YYYYMMDD
+	 * @param pattern æ—¥ä»˜æ›¸å¼
 	 * @return
 	 */
 	public static LocalDate parseDate(String dateStr, String pattern) {
@@ -75,7 +84,7 @@ public class DateUtil {
 	}
 
 	/**
-	 * Œ»İ‚Ì“ú•t‚ğæ“¾
+	 * ç¾åœ¨ã®æ—¥ä»˜ã‚’å–å¾—
 	 * 
 	 * @return
 	 */
@@ -84,7 +93,7 @@ public class DateUtil {
 	}
 
 	/**
-	 * Œ»İ‚Ì“ú‚ğæ“¾
+	 * ç¾åœ¨ã®æ—¥æ™‚ã‚’å–å¾—
 	 * 
 	 * @return
 	 */
@@ -93,7 +102,7 @@ public class DateUtil {
 	}
 
 	/**
-	 * w’è‚µ‚½‘ÎÛ“ú•t‚ÌŒ‰‚ğæ“¾‚·‚é
+	 * æŒ‡å®šã—ãŸå¯¾è±¡æ—¥ä»˜ã®æœˆåˆã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param date
 	 * @return
@@ -103,7 +112,7 @@ public class DateUtil {
 	}
 
 	/**
-	 * w’è‚µ‚½‘ÎÛ“ú•t‚ÌŒ––‚ğæ“¾‚·‚é
+	 * æŒ‡å®šã—ãŸå¯¾è±¡æ—¥ä»˜ã®æœˆæœ«ã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param date
 	 * @return
@@ -113,7 +122,7 @@ public class DateUtil {
 	}
 
 	/**
-	 * “ú•t‚É“ú”‚ğ‰ÁZ
+	 * æ—¥ä»˜ã«æ—¥æ•°ã‚’åŠ ç®—
 	 * 
 	 * @param date
 	 * @param days
@@ -124,7 +133,7 @@ public class DateUtil {
 	}
 
 	/**
-	 * “ú•t‚©‚ç“ú”‚ğŒ¸Z
+	 * æ—¥ä»˜ã‹ã‚‰æ—¥æ•°ã‚’æ¸›ç®—
 	 * 
 	 * @param date
 	 * @param days
@@ -135,7 +144,7 @@ public class DateUtil {
 	}
 
 	/**
-	 * 2‚Â‚Ì“ú•t‚ÌŠÔ‚Ì“ú”‚ğŒvZ
+	 * 2ã¤ã®æ—¥ä»˜ã®é–“ã®æ—¥æ•°ã‚’è¨ˆç®—
 	 * 
 	 * @param startDate
 	 * @param endDate

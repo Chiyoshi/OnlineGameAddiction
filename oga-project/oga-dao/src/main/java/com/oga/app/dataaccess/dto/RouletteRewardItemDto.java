@@ -1,17 +1,17 @@
 package com.oga.app.dataaccess.dto;
 
 /**
- * ƒ‹[ƒŒƒbƒgŠl“¾ƒAƒCƒeƒ€DTO
+ * ãƒ«ãƒ¼ãƒ¬ãƒƒãƒˆç²å¾—ã‚¢ã‚¤ãƒ†ãƒ DTO
  */
 public class RouletteRewardItemDto {
 
-	/** ƒ†[ƒUID */
+	/** ãƒ¦ãƒ¼ã‚¶ID */
 	private String userId;
 
-	/** Šl“¾ƒAƒCƒeƒ€ */
+	/** ç²å¾—ã‚¢ã‚¤ãƒ†ãƒ  */
 	private String rewardItem;
 
-	/** Šl“¾ŒÂ” */
+	/** ç²å¾—å€‹æ•° */
 	private int count;
 
 	/**
@@ -22,7 +22,7 @@ public class RouletteRewardItemDto {
 	}
 
 	/**
-	 * @param userId ƒZƒbƒg‚·‚é userId
+	 * @param userId ã‚»ãƒƒãƒˆã™ã‚‹ userId
 	 */
 	public void setUserId(String userId) {
 		this.userId = userId;
@@ -36,7 +36,7 @@ public class RouletteRewardItemDto {
 	}
 
 	/**
-	 * @param rewardItem ƒZƒbƒg‚·‚é rewardItem
+	 * @param rewardItem ã‚»ãƒƒãƒˆã™ã‚‹ rewardItem
 	 */
 	public void setRewardItem(String rewardItem) {
 		this.rewardItem = rewardItem;
@@ -50,7 +50,7 @@ public class RouletteRewardItemDto {
 	}
 
 	/**
-	 * @param count ƒZƒbƒg‚·‚é count
+	 * @param count ã‚»ãƒƒãƒˆã™ã‚‹ count
 	 */
 	public void setCount(int count) {
 		this.count = count;

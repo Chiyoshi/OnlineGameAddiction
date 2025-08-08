@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 
@@ -15,23 +16,20 @@ import com.oga.app.dataaccess.entity.User;
 public interface UserMapper {
 
 	@SelectProvider(type = UserSqlProvider.class, method = "findByPKey")
-	User findByPKey(String userId);
+	User findByPKey(@Param("userId") String userId);
 
 	@SelectProvider(type = UserSqlProvider.class, method = "findAll")
 	List<User> findAll();
 
-	@SelectProvider(type = UserSqlProvider.class, method = "findByUserInfoList")
-	List<User> findByUserInfoList();
+	@InsertProvider(type = UserSqlProvider.class, method = "insert")
+	void insert(User user);
 
-	@InsertProvider(type = UserSqlProvider.class, method = "insertUser")
-	void insertUser(User user);
+	@UpdateProvider(type = UserSqlProvider.class, method = "update")
+	void update(User user);
 
-	@UpdateProvider(type = UserSqlProvider.class, method = "updateUser")
-	void updateUser(User user);
-
-	@DeleteProvider(type = UserSqlProvider.class, method = "deleteUser")
-	void deleteUser(String userId);
+	@DeleteProvider(type = UserSqlProvider.class, method = "delete")
+	void delete(@Param("userId") String userId);
 	
-	@DeleteProvider(type = UserSqlProvider.class, method = "deleteAllUser")
-	void deleteAllUser();
+	@DeleteProvider(type = UserSqlProvider.class, method = "deleteAll")
+	void deleteAll();
 }

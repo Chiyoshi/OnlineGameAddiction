@@ -17,8 +17,10 @@ public interface OperationLogMapper {
 	List<OperationLog> findAll();
 
 	@SelectProvider(type = OperationLogSqlProvider.class, method = "findByOperationDate")
-	List<OperationLog> findByOperationDate(@Param("fromOperationDate") String fromOperationDate,
-			@Param("toOperationDate") String toOperationDate, @Param("userId") String userId);
+	List<OperationLog> findByOperationDate(
+			@Param("fromOperationDate") String fromOperationDate,
+			@Param("toOperationDate") String toOperationDate, 
+			@Param("userId") String userId);
 
 	@InsertProvider(type = OperationLogSqlProvider.class, method = "insertOperationLog")
 	void insertOperationLog(OperationLog operationLog);

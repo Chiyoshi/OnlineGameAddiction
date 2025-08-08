@@ -24,15 +24,12 @@
 		</environment>
 	</environments>
 	<mappers>
-		<mapper class="com.oga.app.dataaccess.dao.mapper.CalendarMapper" />
-		<mapper class="com.oga.app.dataaccess.dao.mapper.CampaignMapper" />
-		<mapper class="com.oga.app.dataaccess.dao.mapper.DailyWorkMapper" />
-		<mapper class="com.oga.app.dataaccess.dao.mapper.DailyWorkResultMapper" />
-		<mapper class="com.oga.app.dataaccess.dao.mapper.MasterMapper" />
-		<mapper class="com.oga.app.dataaccess.dao.mapper.MenuItemMapper" />
-		<mapper class="com.oga.app.dataaccess.dao.mapper.MenuMapper" />
-		<mapper class="com.oga.app.dataaccess.dao.mapper.OperationLogMapper" />
-		<mapper class="com.oga.app.dataaccess.dao.mapper.SettingMapper" />
+		<mapper class="com.oga.app.dataaccess.dao.mapper.DailyRewardHistoryMapper" />
+		<mapper class="com.oga.app.dataaccess.dao.mapper.LoginCampaignDetailsMapper" />
+		<mapper class="com.oga.app.dataaccess.dao.mapper.LoginCampaignHistoryMapper" />
+<!-- 		<mapper class="com.oga.app.dataaccess.dao.mapper.OperationLogMapper" /> -->
+		<mapper class="com.oga.app.dataaccess.dao.mapper.RouletteHistoryMapper" />
+		<mapper class="com.oga.app.dataaccess.dao.mapper.RSManagementMapper" />
 		<mapper class="com.oga.app.dataaccess.dao.mapper.UserMapper" />
 	</mappers>
 </configuration>

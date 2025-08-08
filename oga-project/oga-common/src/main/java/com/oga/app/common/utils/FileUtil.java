@@ -18,9 +18,9 @@ import com.oga.app.common.exception.SystemException;
 public class FileUtil {
 
 	/**
-	 * ƒtƒ@ƒCƒ‹ˆê——‚ğæ“¾‚·‚é
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param dir ƒfƒBƒŒƒNƒgƒŠ
+	 * @param dir ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 	 * @return
 	 */
 	public static List<File> getFileList(String dir) {
@@ -29,9 +29,9 @@ public class FileUtil {
 	}
 
 	/**
-	 * ƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚·‚é
+	 * ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ä½œæˆã™ã‚‹
 	 * 
-	 * @param dir ƒfƒBƒŒƒNƒgƒŠ
+	 * @param dir ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 	 * @throws SystemException 
 	 */
 	public static void createDirectory(String dir) throws SystemException {
@@ -44,31 +44,31 @@ public class FileUtil {
 	}
 
 	/**
-	 * ‘¶İƒ`ƒFƒbƒN
+	 * å­˜åœ¨ãƒã‚§ãƒƒã‚¯
 	 * 
-	 * @param filePath ƒtƒ@ƒCƒ‹ƒpƒXƒpƒX
+	 * @param filePath ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ãƒ‘ã‚¹
 	 */
 	public static boolean isExists(String filePath) {
 		return Files.exists(Paths.get(filePath));
 	}
 
 	/**
-	 * CSVƒtƒ@ƒCƒ‹‘‚«o‚·
+	 * CSVãƒ•ã‚¡ã‚¤ãƒ«æ›¸ãå‡ºã™
 	 * 
-	 * @param csvFilePath ƒtƒ@ƒCƒ‹ƒpƒX
-	 * @param header ƒwƒbƒ_[
-	 * @param data ƒf[ƒ^
-	 * @param isAppend ’Ç‹LŒ^
+	 * @param csvFilePath ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
+	 * @param header ãƒ˜ãƒƒãƒ€ãƒ¼
+	 * @param data ãƒ‡ãƒ¼ã‚¿
+	 * @param isAppend è¿½è¨˜å‹
 	 * @throws SystemException 
 	 */
 	public static void writeCsvFile(String csvFilePath, Object[] header, List<Object[]> data, boolean isAppend)
 			throws SystemException {
 		try (BufferedWriter writer = new BufferedWriter(
 				new FileWriter(csvFilePath, Charset.forName("MS932"), isAppend))) {
-			// ƒwƒbƒ_[‚ğ‘‚«‚Ş
+			// ãƒ˜ãƒƒãƒ€ãƒ¼ã‚’æ›¸ãè¾¼ã‚€
 			writeLine(writer, header);
 
-			// ƒf[ƒ^‚ğ‘‚«‚Ş
+			// ãƒ‡ãƒ¼ã‚¿ã‚’æ›¸ãè¾¼ã‚€
 			for (Object[] row : data) {
 				writeLine(writer, row);
 			}
@@ -76,12 +76,12 @@ public class FileUtil {
 			writer.flush();
 			writer.close();
 		} catch (IOException e) {
-			throw new SystemException("CSVƒtƒ@ƒCƒ‹‚Ì‘‚«‚İ‚É¸”s‚µ‚Ü‚µ‚½", e);
+			throw new SystemException("CSVãƒ•ã‚¡ã‚¤ãƒ«ã®æ›¸ãè¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸ", e);
 		}
 	}
 
 	/**
-	 * 1s‘‚«‚İ
+	 * 1è¡Œæ›¸ãè¾¼ã¿
 	 * 
 	 * @param writer
 	 * @param values
@@ -100,7 +100,7 @@ public class FileUtil {
 	}
 
 	/**
-	 * CSVƒtƒ@ƒCƒ‹“Ç‚İ‚İ
+	 * CSVãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿
 	 * 
 	 * @param csvFilePath
 	 * @return
@@ -112,10 +112,10 @@ public class FileUtil {
 
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath, Charset.forName("MS932")))) {
 			while ((line = br.readLine()) != null) {
-				// s‚ğƒJƒ“ƒ}‚Å•ªŠ„‚µ‚Ä”z—ñ‚É‚·‚é
+				// è¡Œã‚’ã‚«ãƒ³ãƒã§åˆ†å‰²ã—ã¦é…åˆ—ã«ã™ã‚‹
 				String[] values = line.split(",");
 
-				// ƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ğíœ‚·‚é
+				// ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å‰Šé™¤ã™ã‚‹
 				for (int i = 0; i < values.length; i++) {
 					values[i] = values[i].replaceAll("\"", "");
 
@@ -127,7 +127,7 @@ public class FileUtil {
 				data.add(values);
 			}
 		} catch (IOException e) {
-			throw new SystemException("CSVƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚Ü‚µ‚½", e);
+			throw new SystemException("CSVãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸ", e);
 		}
 		return data;
 	}

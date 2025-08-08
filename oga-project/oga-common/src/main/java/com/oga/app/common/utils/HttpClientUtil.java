@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class HttpClientUtil {
 
-	/** ƒfƒtƒHƒ‹ƒgƒGƒ“ƒR[ƒh */
+	/** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ */
 	private static String DEFAULT_ENCODE_UTF8 = "UTF-8";
 
 	/** GET */
@@ -23,35 +23,35 @@ public class HttpClientUtil {
 	private static String REQUEST_METHOD_POST = "POST";
 
 	/**
-	 * GETƒŠƒNƒGƒXƒg 
+	 * GETãƒªã‚¯ã‚¨ã‚¹ãƒˆ 
 	 * 
-	 * @param urlStr Ú‘±æURL
-	 * @return HTMLƒeƒLƒXƒg
+	 * @param urlStr æ¥ç¶šå…ˆURL
+	 * @return HTMLãƒ†ã‚­ã‚¹ãƒˆ
 	 */
 	public static String sendGet(String urlStr) {
 		return request(urlStr, REQUEST_METHOD_GET, null, null);
 	}
 
 	/**
-	 * POSTƒŠƒNƒGƒXƒg
+	 * POSTãƒªã‚¯ã‚¨ã‚¹ãƒˆ
 	 * 
-	 * @param urlStr Ú‘±æURL
-	 * @param requestProperties ƒŠƒNƒGƒXƒgƒvƒƒpƒeƒB
-	 * @param formParams FORMƒpƒ‰ƒ[ƒ^
-	 * @return HTMLƒeƒLƒXƒg
+	 * @param urlStr æ¥ç¶šå…ˆURL
+	 * @param requestProperties ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
+	 * @param formParams FORMãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	 * @return HTMLãƒ†ã‚­ã‚¹ãƒˆ
 	 */
 	public static String sendPost(String urlStr, Map<String, String> requestProperties, Map<String, String> formParams) {
 		return request(urlStr, REQUEST_METHOD_POST, requestProperties, formParams);
 	}
 
 	/**
-	 * HTTPƒŠƒNƒGƒXƒg‘—M
+	 * HTTPãƒªã‚¯ã‚¨ã‚¹ãƒˆé€ä¿¡
 	 * 
-	 * @param urlStr Ú‘±æURL
-	 * @param requestMethod HTTPƒŠƒNƒGƒXƒgƒƒ\ƒbƒh
-	 * @param requestProperties ƒŠƒNƒGƒXƒgƒvƒƒpƒeƒB
-	 * @param formParams FORMƒpƒ‰ƒ[ƒ^
-	 * @return HTMLƒeƒLƒXƒg
+	 * @param urlStr æ¥ç¶šå…ˆURL
+	 * @param requestMethod HTTPãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ¡ã‚½ãƒƒãƒ‰
+	 * @param requestProperties ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
+	 * @param formParams FORMãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	 * @return HTMLãƒ†ã‚­ã‚¹ãƒˆ
 	 */
 	@SuppressWarnings("deprecation")
 	private static String request(String urlStr, String requestMethod, Map<String, String> requestProperties, Map<String, String> formParams) {
@@ -67,38 +67,38 @@ public class HttpClientUtil {
 			con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod(requestMethod);
 
-			// ƒŠƒNƒGƒXƒgƒvƒƒpƒeƒB‚ğİ’è‚·‚é
+			// ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’è¨­å®šã™ã‚‹
 			for (Map.Entry<String, String> entry : requestProperties.entrySet()) {
 				con.setRequestProperty(entry.getKey(), entry.getValue());
 			}
 
-			// FORMƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚é
+			// FORMãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®šã™ã‚‹
 			if (REQUEST_METHOD_POST.equals(requestMethod) && formParams != null) {
-				// URLÚ‘±‚Éƒf[ƒ^‚ğ‘‚«‚İ‚Å‚«‚é‚æ‚¤‚É‚·‚é
+				// URLæ¥ç¶šã«ãƒ‡ãƒ¼ã‚¿ã‚’æ›¸ãè¾¼ã¿ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 				con.setDoOutput(true);
-				// ƒf[ƒ^‘‚«‚İ
+				// ãƒ‡ãƒ¼ã‚¿æ›¸ãè¾¼ã¿
 				try (OutputStreamWriter osw = new OutputStreamWriter(con.getOutputStream())) {
 					osw.write(createFormParameter(formParams));
 				}
 			}
 
-			// URLÚ‘±
+			// URLæ¥ç¶š
 			con.connect();
 
-			// HTTPƒŒƒXƒ|ƒ“ƒXƒR[ƒh‚ğæ“¾‚·‚é
+			// HTTPãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã™ã‚‹
 			int status = con.getResponseCode();
 
 			if (HttpURLConnection.HTTP_OK == status || HttpURLConnection.HTTP_ACCEPTED == status) {
 				in = new BufferedInputStream(con.getInputStream());
 
-				// •¶šƒR[ƒh‚ğæ“¾‚·‚é
+				// æ–‡å­—ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã™ã‚‹
 				String encoding = con.getContentEncoding();
 
 				if (StringUtil.isNullOrEmpty(encoding)) {
 					encoding = DEFAULT_ENCODE_UTF8;
 				}
 
-				// ƒŒƒXƒ|ƒ“ƒX‚ğæ“¾‚·‚é
+				// ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
 				try (BufferedReader br = new BufferedReader(new InputStreamReader(in, encoding))) {
 					String line;
 					while ((line = br.readLine()) != null) {
@@ -126,21 +126,21 @@ public class HttpClientUtil {
 	}
 
 	/**
-	 * FORMƒpƒ‰ƒ[ƒ^ì¬
+	 * FORMãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ä½œæˆ
 	 * 
-	 * @param map FORMƒpƒ‰ƒ[ƒ^‚ªŠi”[‚³‚ê‚½Map
-	 * @return FORMƒpƒ‰ƒ[ƒ^‚Ì•¶š—ñ
+	 * @param map FORMãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒæ ¼ç´ã•ã‚ŒãŸMap
+	 * @return FORMãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®æ–‡å­—åˆ—
 	 */
 	private static String createFormParameter(Map<String, String> map) {
 		return convertMap2KeyValueStr(map, "&");
 	}
 
 	/**
-	 * Map‚ÉŠi”[‚³‚ê‚½KeyAValue‚ğKey=ValueŒ`®‚Ì•¶š—ñ‚É•ÏŠ·‚·‚é
+	 * Mapã«æ ¼ç´ã•ã‚ŒãŸKeyã€Valueã‚’Key=Valueå½¢å¼ã®æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹
 	 * 
-	 * @param map FORMƒpƒ‰ƒ[ƒ^‚ªŠi”[‚³‚ê‚½Map
-	 * @param delimiter ‹æØ‚è•¶š
-	 * @return FORMƒpƒ‰ƒ[ƒ^‚Ì•¶š—ñ
+	 * @param map FORMãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒæ ¼ç´ã•ã‚ŒãŸMap
+	 * @param delimiter åŒºåˆ‡ã‚Šæ–‡å­—
+	 * @return FORMãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®æ–‡å­—åˆ—
 	 */
 	private static String convertMap2KeyValueStr(Map<String, String> map, String delimiter) {
 		StringBuilder sb = new StringBuilder();

@@ -3,54 +3,47 @@ package com.oga.app.batch;
 import java.io.File;
 import java.util.List;
 
+import com.oga.app.common.enums.YesNo;
 import com.oga.app.common.exception.ApplicationException;
 import com.oga.app.common.exception.SystemException;
 import com.oga.app.common.utils.FileUtil;
 import com.oga.app.common.utils.LogUtil;
 import com.oga.app.common.utils.StringUtil;
-import com.oga.app.dataaccess.entity.Campaign;
-import com.oga.app.dataaccess.entity.DailyWork;
-import com.oga.app.dataaccess.entity.DailyWorkResult;
-import com.oga.app.dataaccess.entity.Master;
 import com.oga.app.dataaccess.entity.User;
-import com.oga.app.service.provider.CampaignProvider;
-import com.oga.app.service.provider.DailyWorkProvider;
-import com.oga.app.service.provider.DailyWorkResultProvider;
-import com.oga.app.service.provider.MasterProvider;
-import com.oga.app.service.provider.UserProvider;
+import com.oga.app.service.provider.redstone.management.UserProvider;
 
-public class ImportCsvFileBatch extends BaseBatch {
+public class ImportCsvFileBatch extends BatchBase {
 
-	/** CSVƒtƒ@ƒCƒ‹–¼(user.csv) */
+	/** CSVãƒ•ã‚¡ã‚¤ãƒ«å(user.csv) */
 	private final String CSV_FILE_USER = "user.csv";
 
-	/** CSVƒtƒ@ƒCƒ‹–¼(dailywork.csv) */
+	/** CSVãƒ•ã‚¡ã‚¤ãƒ«å(dailywork.csv) */
 	private final String CSV_FILE_DAILYWORK = "dailywork.csv";
 
-	/** CSVƒtƒ@ƒCƒ‹–¼(dailyworkresult.csv) */
+	/** CSVãƒ•ã‚¡ã‚¤ãƒ«å(dailyworkresult.csv) */
 	private final String CSV_FILE_DAILYWORKRESULT = "dailyworkresult.csv";
 
-	/** CSVƒtƒ@ƒCƒ‹–¼(campaign.csv) */
+	/** CSVãƒ•ã‚¡ã‚¤ãƒ«å(campaign.csv) */
 	private final String CSV_FILE_CAMPAIGN = "campaign.csv";
 
-	/** CSVƒtƒ@ƒCƒ‹–¼(master.csv) */
+	/** CSVãƒ•ã‚¡ã‚¤ãƒ«å(master.csv) */
 	private final String CSV_FILE_MASTER = "master.csv";
 
-	/** CSVŠi”[æƒfƒBƒŒƒNƒgƒŠ */
+	/** CSVæ ¼ç´å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª */
 	private String INPUT_CSV_PATH = null;
 
 	@Override
 	public void pre(String[] args) throws ApplicationException, SystemException {
-		// ŠÂ‹«•Ï”‚©‚çƒpƒX‚ğæ“¾‚·‚é
+		// ç’°å¢ƒå¤‰æ•°ã‹ã‚‰ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
 		String inputCsvPath = System.getProperty("input.dir");
 
 		if (StringUtil.isNullOrEmpty(inputCsvPath)) {
-			throw new SystemException("ŠÂ‹«•Ï”‚ªİ’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñBFinput.dir");
+			throw new SystemException("ç’°å¢ƒå¤‰æ•°ãŒè¨­å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚ï¼šinput.dir");
 		}
 
-		// ƒfƒBƒŒƒNƒgƒŠ‘¶İƒ`ƒFƒbƒN
+		// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå­˜åœ¨ãƒã‚§ãƒƒã‚¯
 		if (!FileUtil.isExists(inputCsvPath)) {
-			throw new ApplicationException("CSVŠi”[æ‚ÌƒfƒBƒŒƒNƒgƒŠ‚ª‘¶İ‚µ‚Ü‚¹‚ñBF" + inputCsvPath);
+			throw new ApplicationException("CSVæ ¼ç´å…ˆã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå­˜åœ¨ã—ã¾ã›ã‚“ã€‚ï¼š" + inputCsvPath);
 		}
 
 		INPUT_CSV_PATH = inputCsvPath;
@@ -59,38 +52,22 @@ public class ImportCsvFileBatch extends BaseBatch {
 	@Override
 	public void exec() throws ApplicationException, SystemException {
 
-		// CSVƒtƒ@ƒCƒ‹ˆê——‚ğæ“¾‚·‚é
+		// CSVãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§ã‚’å–å¾—ã™ã‚‹
 		List<File> files = FileUtil.getFileList(INPUT_CSV_PATH);
 
 		for (File file : files) {
 
-			// CSVƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚é
+			// CSVãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–å¾—ã™ã‚‹
 			String csvFileName = file.getName().toLowerCase();
 
-			// CSVƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş 
+			// CSVãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ 
 			List<String[]> dataList = FileUtil.readCsvFile(file.getAbsolutePath());
 
-			// ƒtƒ@ƒCƒ‹‚²‚Æ‚Éˆ—‚ğ•ªŠò‚·‚é
+			// ãƒ•ã‚¡ã‚¤ãƒ«ã”ã¨ã«å‡¦ç†ã‚’åˆ†å²ã™ã‚‹
 			switch (csvFileName) {
 			case CSV_FILE_USER:
-				// Userƒe[ƒuƒ‹‚ğ“o˜^‚·‚é
+				// Userãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ç™»éŒ²ã™ã‚‹
 				insertUser(dataList);
-				break;
-			case CSV_FILE_DAILYWORK:
-				// DailyWorkƒe[ƒuƒ‹‚ğ“o˜^‚·‚é
-				insertDailyWork(dataList);
-				break;
-			case CSV_FILE_DAILYWORKRESULT:
-				// DailyWorkResultƒe[ƒuƒ‹‚ğ“o˜^‚·‚é
-				insertDailyWorkResult(dataList);
-				break;
-			case CSV_FILE_CAMPAIGN:
-				// Campaignƒe[ƒuƒ‹‚ğ“o˜^‚·‚é
-				insertCampaign(dataList);
-				break;
-			case CSV_FILE_MASTER:
-				// Masterƒe[ƒuƒ‹‚ğ“o˜^‚·‚é
-				insertMaster(dataList);
 				break;
 			default:
 				break;
@@ -105,12 +82,12 @@ public class ImportCsvFileBatch extends BaseBatch {
 	}
 
 	/**
-	 * CSVƒtƒ@ƒCƒ‹‚Ì“à—e‚ğUserƒe[ƒuƒ‹‚É“o˜^‚·‚é
+	 * CSVãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹ã‚’Userãƒ†ãƒ¼ãƒ–ãƒ«ã«ç™»éŒ²ã™ã‚‹
 	 * 
-	 * @param dataList ƒf[ƒ^ƒŠƒXƒg
+	 * @param dataList ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆ
 	 */
 	private void insertUser(List<String[]> dataList) {
-		// ƒ†[ƒUî•ñ‚ğíœ‚·‚é
+		// ãƒ¦ãƒ¼ã‚¶æƒ…å ±ã‚’å‰Šé™¤ã™ã‚‹
 		LogUtil.info("[DELETE] [USER] [START]");
 		UserProvider.getInstance().deleteUser();
 		LogUtil.info("[DELETE] [USER] [END]");
@@ -118,168 +95,20 @@ public class ImportCsvFileBatch extends BaseBatch {
 		LogUtil.info("[INSERT] [USER] [START]");
 
 		for (String[] data : dataList) {
-			User user = new User();
-			user.setUserId(data[0]);
-			user.setPassword(data[1]);
-			user.setBirthDay(data[2]);
-			user.setMailAddress(data[3]);
-			user.setGem(data[4]);
-			user.setServicePoint(data[5]);
-			user.setRedspoint(data[6]);
-			//user.setRegistrationDate(data[7]);
-			//user.setUpdateDate(data[8]);
-			user.setDeleteFlg(data[9]);
-			user.setDeleteDate(data[10]);
+			User user = User.builder()
+					.userId(data[0])
+					.password(data[1])
+					.deleteFlg(YesNo.NO.getValue())
+					.build();
 
 			LogUtil.info(user.toString());
 
-			// ƒ†[ƒUî•ñ‚ğ“o˜^‚·‚é
+			// ãƒ¦ãƒ¼ã‚¶æƒ…å ±ã‚’ç™»éŒ²ã™ã‚‹
 			UserProvider.getInstance().insertUser(user);
 		}
 
 		LogUtil.info("[INSERT] [USER] [END]");
 	}
 
-	/**
-	 * CSVƒtƒ@ƒCƒ‹‚Ì“à—e‚ğDailyWorkƒe[ƒuƒ‹‚É“o˜^‚·‚é
-	 * 
-	 * @param dataList ƒf[ƒ^ƒŠƒXƒg
-	 */
-	private void insertDailyWork(List<String[]> dataList) {
-		// “úŸì‹Æî•ñ‚ğíœ‚·‚é
-		LogUtil.info("[DELETE] [DAILYWORK] [START]");
-		DailyWorkProvider.getInstance().deleteDailyWork();
-		LogUtil.info("[DELETE] [DAILYWORK] [END]");
-
-		LogUtil.info("[INSERT] [DAILYWORK] [START]");
-
-		for (String[] data : dataList) {
-			DailyWork dailyWork = new DailyWork();
-			dailyWork.setUserId(data[0]);
-			dailyWork.setLoginCampaignFlg(data[1]);
-			dailyWork.setDailyRewardFlg(data[2]);
-			dailyWork.setRouletteFlg(data[3]);
-			dailyWork.setLastLoginCampaignDate(data[4]);
-			dailyWork.setLastDailyRewardDate(data[5]);
-			dailyWork.setLastRouletteDate(data[6]);
-			//dailyWork.setRegistrationDate(data[7]);
-			//dailyWork.setUpdateDate(data[8]);
-			dailyWork.setDeleteFlg(data[9]);
-			dailyWork.setDeleteDate(data[10]);
-
-			LogUtil.info(dailyWork.toString());
-
-			// “úŸì‹Æî•ñ‚ğ“o˜^‚·‚é
-			DailyWorkProvider.getInstance().insertDailyWork(dailyWork);
-		}
-
-		LogUtil.info("[INSERT] [DAILYWORK] [END]");
-	}
-
-	/**
-	 * CSVƒtƒ@ƒCƒ‹‚Ì“à—e‚ğDailyWorkResultƒe[ƒuƒ‹‚É“o˜^‚·‚é
-	 * 
-	 * @param dataList ƒf[ƒ^ƒŠƒXƒg
-	 */
-	private void insertDailyWorkResult(List<String[]> dataList) {
-		// “úŸì‹ÆŒ‹‰Ê‚ğíœ‚·‚é
-		LogUtil.info("[DELETE] [DAILYWORKRESULT] [START]");
-		DailyWorkResultProvider.getInstance().deleteDailyWorkResult();
-		LogUtil.info("[DELETE] [DAILYWORKRESULT] [END]");
-
-		LogUtil.info("[INSERT] [DAILYWORKRESULT] [START]");
-
-		for (String[] data : dataList) {
-			DailyWorkResult dailyWorkResult = new DailyWorkResult();
-			dailyWorkResult.setUserId(data[0]);
-			dailyWorkResult.setBaseDate(data[1]);
-			dailyWorkResult.setServiceType(data[2]);
-			dailyWorkResult.setStatus(data[3]);
-			dailyWorkResult.setRewardItem(data[4]);
-			dailyWorkResult.setRewardItemImage(data[5]);
-			//dailyWorkResult.setRegistrationDate(data[6]);
-			//dailyWorkResult.setUpdateDate(data[7]);
-			dailyWorkResult.setDeleteFlg(data[8]);
-			dailyWorkResult.setDeleteDate(data[9]);
-
-			LogUtil.info(dailyWorkResult.toString());
-
-			// “úŸì‹ÆŒ‹‰Ê‚ğ“o˜^‚·‚é
-			DailyWorkResultProvider.getInstance().insertDailyWorkResult(dailyWorkResult);
-		}
-
-		LogUtil.info("[INSERT] [DAILYWORKRESULT] [END]");
-	}
-
-	/**
-	 * CSVƒtƒ@ƒCƒ‹‚Ì“à—e‚ğCampaignƒe[ƒuƒ‹‚É“o˜^‚·‚é
-	 * 
-	 * @param dataList ƒf[ƒ^ƒŠƒXƒg
-	 */
-	private void insertCampaign(List<String[]> dataList) {
-		// ƒLƒƒƒ“ƒy[ƒ“î•ñ‚ğíœ‚·‚é
-		LogUtil.info("[DELETE] [CAMPAIGN] [START]");
-		CampaignProvider.getInstance().deleteCampaign();
-		LogUtil.info("[DELETE] [CAMPAIGN] [END]");
-
-		LogUtil.info("[INSERT] [CAMPAIGN] [START]");
-
-		for (String[] data : dataList) {
-			Campaign campaign = new Campaign();
-			campaign.setCampaignId(data[0]);
-			campaign.setCampaignType(data[1]);
-			campaign.setCampaignName(data[2]);
-			campaign.setStartDate(data[3]);
-			campaign.setEndDate(data[4]);
-			//campaign.setRegistrationDate(data[5]);
-			//campaign.setUpdateDate(data[6]);
-			campaign.setDeleteFlg(data[7]);
-			campaign.setDeleteDate(data[8]);
-
-			LogUtil.info(campaign.toString());
-
-			// ƒ†[ƒUî•ñ‚ğ“o˜^‚·‚é
-			CampaignProvider.getInstance().insertCampaign(campaign);
-		}
-
-		LogUtil.info("[INSERT] [CAMPAIGN] [END]");
-	}
-
-	/**
-	 * CSVƒtƒ@ƒCƒ‹‚Ì“à—e‚ğMasterƒe[ƒuƒ‹‚É“o˜^‚·‚é
-	 * 
-	 * @param dataList ƒf[ƒ^ƒŠƒXƒg
-	 */
-	private void insertMaster(List<String[]> dataList) {
-		// ƒ}ƒXƒ^î•ñ‚ğíœ‚·‚é
-		LogUtil.info("[DELETE] [MASTER] [START]");
-		MasterProvider.getInstance().deleteMaster();
-		LogUtil.info("[DELETE] [MASTER] [END]");
-
-		LogUtil.info("[INSERT] [MASTER] [START]");
-
-		for (String[] data : dataList) {
-			Master master = new Master();
-			master.setKey(data[0]);
-			master.setValue(data[1]);
-			master.setExplanation(data[2]);
-			master.setOrder(Integer.parseInt(data[3]));
-			//master.setRegistrationDate(data[4]);
-			//master.setUpdateDate(data[5]);
-			master.setDeleteFlg(data[6]);
-			master.setDeleteDate(data[7]);
-
-			LogUtil.info(master.toString());
-
-			// ƒ}ƒXƒ^î•ñ‚ğ“o˜^‚·‚é
-			MasterProvider.getInstance().insertMaster(master);
-		}
-
-		LogUtil.info("[INSERT] [MASTER] [END]");
-	}
-
-	public static void main(String[] args) {
-		new ImportCsvFileBatch().run(args);
-	}
 
 }

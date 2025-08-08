@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * ƒƒOo—Í
+ * ãƒ­ã‚°å‡ºåŠ›
  */
 public class LogUtil {
 
@@ -34,30 +34,30 @@ public class LogUtil {
 	}
 
 	/**
-	 * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğg—p‚µ‚ÄŒÄ‚Ño‚µŒ³‚ÌƒNƒ‰ƒX–¼‚ğæ“¾‚·‚é
+	 * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’ä½¿ç”¨ã—ã¦å‘¼ã³å‡ºã—å…ƒã®ã‚¯ãƒ©ã‚¹åã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return ƒNƒ‰ƒX–¼
+	 * @return ã‚¯ãƒ©ã‚¹å
 	 */
 	private static String getCallingClassName() {
-		// ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾
+		// ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å–å¾—
 		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-		// ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ÌƒCƒ“ƒfƒbƒNƒX3‚É‚ÍŒÄ‚Ño‚µŒ³‚ÌƒNƒ‰ƒX‚ª‚ ‚é
+		// ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹3ã«ã¯å‘¼ã³å‡ºã—å…ƒã®ã‚¯ãƒ©ã‚¹ãŒã‚ã‚‹
 		return stackTrace[3].getClassName();
 	}
 
 	/**
-	 * ŠÂ‹«•Ï”‚Éƒ†[ƒUID‚ğİ’è‚·‚é
+	 * ç’°å¢ƒå¤‰æ•°ã«ãƒ¦ãƒ¼ã‚¶IDã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param userId ƒ†[ƒUID
+	 * @param userId ãƒ¦ãƒ¼ã‚¶ID
 	 */
 	public static void setPropertyUserId(String userId) {
 		System.setProperty("userid", userId);
 	}
 
 	/**
-	 * ŠÂ‹«•Ï”‚Éƒ†[ƒUID‚ğİ’è‚·‚é
+	 * ç’°å¢ƒå¤‰æ•°ã«ãƒ¦ãƒ¼ã‚¶IDã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param userId ƒ†[ƒUID
+	 * @param userId ãƒ¦ãƒ¼ã‚¶ID
 	 */
 	public static void removePropertyUserId() {
 		System.clearProperty("userid");

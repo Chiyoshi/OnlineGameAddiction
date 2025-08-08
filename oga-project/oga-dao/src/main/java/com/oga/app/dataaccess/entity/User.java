@@ -1,194 +1,38 @@
 package com.oga.app.dataaccess.entity;
 
-/**
- * ƒ†[ƒUî•ñ
- */
-public class User extends BaseEntity {
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
-	/** ƒ†[ƒUID */
+import lombok.Builder;
+import lombok.Data;
+
+/**
+ * ãƒ¦ãƒ¼ã‚¶æƒ…å ±
+ */
+@Data
+@Builder
+public class User {
+
+	/** ãƒ¦ãƒ¼ã‚¶ID */
 	private String userId;
 
-	/** ƒpƒXƒ[ƒh */
+	/** ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ */
 	private String password;
 
-	/** ¶”NŒ“ú */
-	private String birthDay;
-
-	/** ƒ[ƒ‹ƒAƒhƒŒƒX */
-	private String mailAddress;
-
-	/** GEM */
-	private String gem;
-
-	/** ƒT[ƒrƒXƒ|ƒCƒ“ƒg */
-	private String servicePoint;
-
-	/** RED's point */
-	private String redspoint;
-
-	/** “o˜^“ú */
+	/** ç™»éŒ²æ—¥ */
 	private String registrationDate;
 
-	/** XV“ú */
+	/** æ›´æ–°æ—¥ */
 	private String updateDate;
 
-	/** íœƒtƒ‰ƒO */
+	/** å‰Šé™¤ãƒ•ãƒ©ã‚° */
 	private String deleteFlg;
 
-	/** íœ“ú */
+	/** å‰Šé™¤æ—¥ */
 	private String deleteDate;
 
-	/**
-	 * @return userId
-	 */
-	public String getUserId() {
-		return userId;
-	}
-
-	/**
-	 * @param userId ƒZƒbƒg‚·‚é userId
-	 */
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	/**
-	 * @return password
-	 */
-	public String getPassword() {
-		return password;
-	}
-
-	/**
-	 * @param password ƒZƒbƒg‚·‚é password
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	/**
-	 * @return birthDay
-	 */
-	public String getBirthDay() {
-		return birthDay;
-	}
-
-	/**
-	 * @param birthDay ƒZƒbƒg‚·‚é birthDay
-	 */
-	public void setBirthDay(String birthDay) {
-		this.birthDay = birthDay;
-	}
-
-	/**
-	 * @return mailAddress
-	 */
-	public String getMailAddress() {
-		return mailAddress;
-	}
-
-	/**
-	 * @param mailAddress ƒZƒbƒg‚·‚é mailAddress
-	 */
-	public void setMailAddress(String mailAddress) {
-		this.mailAddress = mailAddress;
-	}
-
-	/**
-	 * @return gem
-	 */
-	public String getGem() {
-		return gem;
-	}
-
-	/**
-	 * @param gem ƒZƒbƒg‚·‚é gem
-	 */
-	public void setGem(String gem) {
-		this.gem = gem;
-	}
-
-	/**
-	 * @return servicePoint
-	 */
-	public String getServicePoint() {
-		return servicePoint;
-	}
-
-	/**
-	 * @param servicePoint ƒZƒbƒg‚·‚é servicePoint
-	 */
-	public void setServicePoint(String servicePoint) {
-		this.servicePoint = servicePoint;
-	}
-
-	/**
-	 * @return redspoint
-	 */
-	public String getRedspoint() {
-		return redspoint;
-	}
-
-	/**
-	 * @param redspoint ƒZƒbƒg‚·‚é redspoint
-	 */
-	public void setRedspoint(String redspoint) {
-		this.redspoint = redspoint;
-	}
-
-	/**
-	 * @return registrationDate
-	 */
-	public String getRegistrationDate() {
-		return registrationDate;
-	}
-
-	/**
-	 * @param registrationDate ƒZƒbƒg‚·‚é registrationDate
-	 */
-	public void setRegistrationDate(String registrationDate) {
-		this.registrationDate = registrationDate;
-	}
-
-	/**
-	 * @return updateDate
-	 */
-	public String getUpdateDate() {
-		return updateDate;
-	}
-
-	/**
-	 * @param updateDate ƒZƒbƒg‚·‚é updateDate
-	 */
-	public void setUpdateDate(String updateDate) {
-		this.updateDate = updateDate;
-	}
-
-	/**
-	 * @return deleteFlg
-	 */
-	public String getDeleteFlg() {
-		return deleteFlg;
-	}
-
-	/**
-	 * @param deleteFlg ƒZƒbƒg‚·‚é deleteFlg
-	 */
-	public void setDeleteFlg(String deleteFlg) {
-		this.deleteFlg = deleteFlg;
-	}
-
-	/**
-	 * @return deleteDate
-	 */
-	public String getDeleteDate() {
-		return deleteDate;
-	}
-
-	/**
-	 * @param deleteDate ƒZƒbƒg‚·‚é deleteDate
-	 */
-	public void setDeleteDate(String deleteDate) {
-		this.deleteDate = deleteDate;
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

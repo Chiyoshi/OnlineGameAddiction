@@ -1,0 +1,13 @@
+eclipse.preferences.version=1
+encoding//src/main/java/com/oga/app/master/dto/CampaignDto.java=UTF-8
+encoding//src/main/java/com/oga/app/master/dto/ItemDto.java=UTF-8
+encoding//src/main/java/com/oga/app/master/dto/RedstoneApiDto.java=UTF-8
+encoding//src/main/java/com/oga/app/master/initializer=UTF-8
+encoding//src/main/java/com/oga/app/master/loader=UTF-8
+encoding//src/main/java/com/oga/app/master/model=UTF-8
+encoding//src/main/java/com/oga/app/master/repository=UTF-8
+encoding//src/main/java/com/oga/app/master/repository/MasterRepository.java=UTF-8
+encoding//src/main/java/com/oga/app/master/repository/RedstoneApiRepository.java=UTF-8
+encoding//src/main/resources=MS932
+encoding//src/test/java=MS932
+encoding//src/test/resources=MS932

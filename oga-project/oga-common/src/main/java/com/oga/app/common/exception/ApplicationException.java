@@ -1,35 +1,35 @@
 package com.oga.app.common.exception;
 
 /**
- * アプリケーションエラー
+ * 繧｢繝励Μ繧ｱ繝ｼ繧ｷ繝ｧ繝ｳ繧ｨ繝ｩ繝ｼ
  */
 public class ApplicationException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * コンストラクタ
+	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
 	 * 
-	 * @param message エラーメッセージ
+	 * @param message 繧ｨ繝ｩ繝ｼ繝｡繝�繧ｻ繝ｼ繧ｸ
 	 */
 	public ApplicationException(String message) {
 		super(message);
 	}
 
 	/**
-	 * コンストラクタ
+	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
 	 * 
-	 * @param cause エラー
+	 * @param cause 繧ｨ繝ｩ繝ｼ
 	 */
 	public ApplicationException(Throwable cause) {
 		super(cause);
 	}
 
 	/**
-	 * コンストラクタ
+	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
 	 * 
-	 * @param message エラーメッセージ
-	 * @param cause   エラー
+	 * @param message 繧ｨ繝ｩ繝ｼ繝｡繝�繧ｻ繝ｼ繧ｸ
+	 * @param cause   繧ｨ繝ｩ繝ｼ
 	 */
 	public ApplicationException(String message, Throwable cause) {
 		super(message, cause);

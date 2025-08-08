@@ -9,21 +9,21 @@ import com.oga.app.dataaccess.dao.mapper.OperationLogMapper;
 import com.oga.app.dataaccess.entity.OperationLog;
 
 /**
- * ‘€ìƒƒOƒe[ƒuƒ‹‚ğ‘€ì‚·‚éƒNƒ‰ƒX
+ * æ“ä½œãƒ­ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’æ“ä½œã™ã‚‹ã‚¯ãƒ©ã‚¹
  */
-public class OperationLogDao extends BaseDao {
+public class OperationLogDao extends DaoBase {
 
-	/** ‘€ìƒƒOƒe[ƒuƒ‹DAO */
+	/** æ“ä½œãƒ­ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«DAO */
 	private static OperationLogDao operationLogDao;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	private OperationLogDao() {
 	}
 
 	/**
-	 * ƒCƒ“ƒXƒ^ƒ“ƒXæ“¾
+	 * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å–å¾—
 	 */
 	public static synchronized OperationLogDao getInstance() {
 		if (operationLogDao == null) {
@@ -33,9 +33,9 @@ public class OperationLogDao extends BaseDao {
 	}
 
 	/**
-	 * ‘€ìƒƒO‚ğæ“¾‚·‚é
+	 * æ“ä½œãƒ­ã‚°ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return ‘€ìƒƒOƒŠƒXƒg
+	 * @return æ“ä½œãƒ­ã‚°ãƒªã‚¹ãƒˆ
 	 */
 	public List<OperationLog> findAll() {
 		SqlSessionFactory sqlSessionFactory = super.getSqlSessionFactory();
@@ -47,11 +47,11 @@ public class OperationLogDao extends BaseDao {
 	}
 
 	/**
-	 * ŒŸõğŒ‚ğw’è‚µ‚Ä‘€ìƒƒO‚ğæ“¾‚·‚é
+	 * æ¤œç´¢æ¡ä»¶ã‚’æŒ‡å®šã—ã¦æ“ä½œãƒ­ã‚°ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param fromOperationDate ‘€ì“ú•tFrom
-	 * @param toOperationDate ‘€ì“ú•tTo
-	 * @param userId ƒ†[ƒUID
+	 * @param fromOperationDate æ“ä½œæ—¥ä»˜From
+	 * @param toOperationDate æ“ä½œæ—¥ä»˜To
+	 * @param userId ãƒ¦ãƒ¼ã‚¶ID
 	 * @return
 	 */
 	public List<OperationLog> findByOperationDate(String fromOperationDate, String toOperationDate, String userId) {
@@ -64,9 +64,9 @@ public class OperationLogDao extends BaseDao {
 	}
 
 	/**
-	 * ‘€ìƒƒO‚ğæ“¾‚·‚é
+	 * æ“ä½œãƒ­ã‚°ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return ‘€ìƒƒOƒŠƒXƒg
+	 * @return æ“ä½œãƒ­ã‚°ãƒªã‚¹ãƒˆ
 	 */
 	public void insertOperationLog(OperationLog operationLog) {
 		SqlSessionFactory sqlSessionFactory = super.getSqlSessionFactory();
