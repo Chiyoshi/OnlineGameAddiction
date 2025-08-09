@@ -1,0 +1,22 @@
+{
+  "campaign": [
+    {
+      "campaign_id": "CPR202408",
+      "campaign_name": "GoldEx World Red'sルーレット",
+      "start_date": "2024-08-29",
+      "end_date": "2024-09-19"
+    },
+    {
+      "campaign_id": "CPR202501",
+      "campaign_name": "20周年前夜祭 Red'sルーレット",
+      "start_date": "2025-01-16",
+      "end_date": "2025-02-06"
+    },
+    {
+      "campaign_id": "CPR202503",
+      "campaign_name": "20周年後夜祭 Red'sルーレット",
+      "start_date": "2025-03-27",
+      "end_date": "2025-04-17"
+    }
+  ]
+}
