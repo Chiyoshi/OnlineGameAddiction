@@ -3,31 +3,21 @@ package com.oga.app.batch;
 import java.io.File;
 import java.util.List;
 
+import com.oga.app.batch.base.BatchBase;
 import com.oga.app.common.enums.YesNo;
 import com.oga.app.common.exception.ApplicationException;
 import com.oga.app.common.exception.SystemException;
 import com.oga.app.common.utils.FileUtil;
 import com.oga.app.common.utils.LogUtil;
 import com.oga.app.common.utils.StringUtil;
+import com.oga.app.dataaccess.entity.RSManagement;
 import com.oga.app.dataaccess.entity.User;
-import com.oga.app.service.provider.redstone.management.UserProvider;
+import com.oga.app.service.provider.redstone.batch.RedstoneBatchProvider;
 
 public class ImportCsvFileBatch extends BatchBase {
 
 	/** CSVファイル名(user.csv) */
 	private final String CSV_FILE_USER = "user.csv";
-
-	/** CSVファイル名(dailywork.csv) */
-	private final String CSV_FILE_DAILYWORK = "dailywork.csv";
-
-	/** CSVファイル名(dailyworkresult.csv) */
-	private final String CSV_FILE_DAILYWORKRESULT = "dailyworkresult.csv";
-
-	/** CSVファイル名(campaign.csv) */
-	private final String CSV_FILE_CAMPAIGN = "campaign.csv";
-
-	/** CSVファイル名(master.csv) */
-	private final String CSV_FILE_MASTER = "master.csv";
 
 	/** CSV格納先ディレクトリ */
 	private String INPUT_CSV_PATH = null;
@@ -68,6 +58,7 @@ public class ImportCsvFileBatch extends BatchBase {
 			case CSV_FILE_USER:
 				// Userテーブルを登録する
 				insertUser(dataList);
+				insertRSManagement(dataList);
 				break;
 			default:
 				break;
@@ -81,15 +72,10 @@ public class ImportCsvFileBatch extends BatchBase {
 	public void post() throws ApplicationException, SystemException {
 	}
 
-	/**
-	 * CSVファイルの内容をUserテーブルに登録する
-	 * 
-	 * @param dataList データリスト
-	 */
 	private void insertUser(List<String[]> dataList) {
 		// ユーザ情報を削除する
 		LogUtil.info("[DELETE] [USER] [START]");
-		UserProvider.getInstance().deleteUser();
+		RedstoneBatchProvider.getInstance().deleteAllUser();
 		LogUtil.info("[DELETE] [USER] [END]");
 
 		LogUtil.info("[INSERT] [USER] [START]");
@@ -104,11 +90,42 @@ public class ImportCsvFileBatch extends BatchBase {
 			LogUtil.info(user.toString());
 
 			// ユーザ情報を登録する
-			UserProvider.getInstance().insertUser(user);
+			RedstoneBatchProvider.getInstance().insertUser(user);
 		}
 
 		LogUtil.info("[INSERT] [USER] [END]");
 	}
 
+	private void insertRSManagement(List<String[]> dataList) {
+		LogUtil.info("[DELETE] [RSMANAGEMENT] [START]");
+		RedstoneBatchProvider.getInstance().deleteAllUser();
+		LogUtil.info("[DELETE] [RSMANAGEMENT] [END]");
+
+		LogUtil.info("[INSERT] [RSMANAGEMENT] [START]");
+
+		for (String[] data : dataList) {
+			RSManagement rsManagement = RSManagement.builder()
+					.userId(data[0])
+					.gem("0")
+					.servicePoint("0")
+					.redsPoint("0")
+					.loginCampaignFlg(data[2])
+					.dailyRewardFlg(data[3])
+					.rouletteFlg(data[4])
+					.deleteFlg(YesNo.NO.getValue())
+					.build();
+
+			LogUtil.info(rsManagement.toString());
+
+			// レッドストーン管理情報を登録する
+			RedstoneBatchProvider.getInstance().insertRSManagement(rsManagement);
+		}
+
+		LogUtil.info("[INSERT] [RSMANAGEMENT] [END]");
+	}
+
+	public static void main(String[] args) {
+		new ImportCsvFileBatch().run(args);
+	}
 
 }

@@ -1,10 +1,20 @@
 package com.oga.app.master.model;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 /**
  * キャンペーン情報
  */
+@Value
+@Builder
+@Jacksonized
 public class Campaign {
 
 	/** キャンペーンID */
@@ -23,60 +33,8 @@ public class Campaign {
 	@JsonProperty("end_date")
 	private String endDate;
 
-	/**
-	 * @return campaignId
-	 */
-	public String getCampaignId() {
-		return campaignId;
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
-
-	/**
-	 * @param campaignId セットする campaignId
-	 */
-	public void setCampaignId(String campaignId) {
-		this.campaignId = campaignId;
-	}
-
-	/**
-	 * @return campaignName
-	 */
-	public String getCampaignName() {
-		return campaignName;
-	}
-
-	/**
-	 * @param campaignName セットする campaignName
-	 */
-	public void setCampaignName(String campaignName) {
-		this.campaignName = campaignName;
-	}
-
-	/**
-	 * @return startDate
-	 */
-	public String getStartDate() {
-		return startDate;
-	}
-
-	/**
-	 * @param startDate セットする startDate
-	 */
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
-
-	/**
-	 * @return endDate
-	 */
-	public String getEndDate() {
-		return endDate;
-	}
-
-	/**
-	 * @param endDate セットする endDate
-	 */
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
-
 }

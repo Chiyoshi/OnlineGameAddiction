@@ -3,6 +3,7 @@ package com.oga.app.batch;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.oga.app.batch.base.BatchBase;
 import com.oga.app.common.enums.YesNo;
 import com.oga.app.common.exception.ApplicationException;
 import com.oga.app.common.exception.SystemException;

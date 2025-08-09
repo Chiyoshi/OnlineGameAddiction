@@ -1,7 +1,17 @@
 package com.oga.app.master.model;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
+
+@Value
+@Builder
+@Jacksonized
 public class Item {
 
 	/** アイテムコード */
@@ -19,25 +29,8 @@ public class Item {
 		return itemCode;
 	}
 
-	/**
-	 * @param itemCode セットする itemCode
-	 */
-	public void setItemCode(String itemCode) {
-		this.itemCode = itemCode;
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
-
-	/**
-	 * @return itemName
-	 */
-	public String getItemName() {
-		return itemName;
-	}
-
-	/**
-	 * @param itemName セットする itemName
-	 */
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
-
 }

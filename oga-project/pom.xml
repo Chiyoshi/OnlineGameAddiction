@@ -9,11 +9,11 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>oga-service</module>
 		<module>oga-common</module>
-		<module>oga-dao</module>
-		<module>oga-batch</module>
 		<module>oga-master</module>
+		<module>oga-dao</module>
+		<module>oga-service</module>
+		<module>oga-batch</module>
 	</modules>
 
 <!-- プロジェクト全体のプロパティ -->
@@ -22,7 +22,7 @@
 		<maven.compiler.target>21</maven.compiler.target>
 		<java.version>21</java.version>
 		<!-- 文字コードの指定 -->
-		<project.build.sourceEncoding>MS932</project.build.sourceEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<build>

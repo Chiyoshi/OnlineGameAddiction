@@ -1,10 +1,20 @@
 package com.oga.app.master.model;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 /**
  * レッドストーン情報API
  */
+@Value
+@Builder
+@Jacksonized
 public class RedstoneApi {
 
 	/** KEY */
@@ -19,46 +29,8 @@ public class RedstoneApi {
 	@JsonProperty("explanation")
 	private String explanation;
 
-	/**
-	 * @return name
-	 */
-	public String getName() {
-		return name;
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
-
-	/**
-	 * @param name セットする name
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * @return url
-	 */
-	public String getUrl() {
-		return url;
-	}
-
-	/**
-	 * @param url セットする url
-	 */
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	/**
-	 * @return explanation
-	 */
-	public String getExplanation() {
-		return explanation;
-	}
-
-	/**
-	 * @param explanation セットする explanation
-	 */
-	public void setExplanation(String explanation) {
-		this.explanation = explanation;
-	}
-
 }

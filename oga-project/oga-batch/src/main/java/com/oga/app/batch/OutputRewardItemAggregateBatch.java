@@ -2,8 +2,12 @@
 //
 //import java.util.ArrayList;
 //import java.util.Arrays;
+//import java.util.HashMap;
+//import java.util.LinkedHashMap;
 //import java.util.List;
+//import java.util.Map;
 //
+//import com.oga.app.batch.base.BatchBase;
 //import com.oga.app.common.enums.ServiceType;
 //import com.oga.app.common.exception.ApplicationException;
 //import com.oga.app.common.exception.SystemException;
@@ -11,11 +15,12 @@
 //import com.oga.app.common.utils.FileUtil;
 //import com.oga.app.common.utils.LogUtil;
 //import com.oga.app.common.utils.StringUtil;
-//import com.oga.app.dataaccess.entity.Campaign;
+//import com.oga.app.dataaccess.dto.RouletteRewardItemDto;
+//import com.oga.app.master.model.Campaign;
 //import com.oga.app.service.provider.CampaignProvider;
 //import com.oga.app.service.provider.DailyWorkResultProvider;
 //
-//public class OutputRewardItemAggregateBatch extends BaseBatch {
+//public class OutputRewardItemAggregateBatch extends BatchBase {
 //
 //	/** CSV格納先ディレクトリ */
 //	private String OTUPUT_CSV_PATH = null;
@@ -99,41 +104,41 @@
 //		// CSVファイル出力
 //		FileUtil.writeCsvFile(this.OTUPUT_CSV_PATH, header.toArray(), rewardItemAggregateList, false);
 //
-////		// <ユーザID, <アイテム名, 数量>>
-////		Map<String, Map<String, Integer>> userItemMap = new LinkedHashMap<>();
-////
-////		// ユーザーIDごとにアイテムの数量を集計する
-////		for (RouletteRewardItemDto rouletteRewardItemDto : rouletteRewardItemList) {
-////
-////			String userId = rouletteRewardItemDto.getUserId();
-////			String itemName = rouletteRewardItemDto.getRewardItem();
-////			int quantity = rouletteRewardItemDto.getCount();
-////
-////			// マップにユーザIDが存在しない場合は格納する
-////			if (!userItemMap.containsKey(userId)) {
-////				userItemMap.put(userId, new HashMap<String, Integer>());
-////			}
-////
-////			Map<String, Integer> itemMap = userItemMap.get(userId);
-////			if (!itemMap.containsKey(itemName)) {
-////				itemMap.put(itemName, 0);
-////			}
-////			itemMap.put(itemName, itemMap.get(itemName) + quantity);
-////		}
-////
-////		// 各ユーザーのデータを出力
-////		for (Map.Entry<String, Map<String, Integer>> entry : userItemMap.entrySet()) {
-////			Map<String, Integer> itemQuantities = entry.getValue();
-////
-////			System.out.print("\"" + entry.getKey() + "\"");
-////
-////			for (String item : targetRewardItemList) {
-////				// アイテムが存在しない場合は0
-////				int quantity = itemQuantities.containsKey(item) ? itemQuantities.get(item) : 0;
-////				System.out.print(",\"" + quantity + "\"");
-////			}
-////			System.out.println();
-////		}
+//		// <ユーザID, <アイテム名, 数量>>
+//		Map<String, Map<String, Integer>> userItemMap = new LinkedHashMap<>();
+//
+//		// ユーザーIDごとにアイテムの数量を集計する
+//		for (RouletteRewardItemDto rouletteRewardItemDto : rouletteRewardItemList) {
+//
+//			String userId = rouletteRewardItemDto.getUserId();
+//			String itemName = rouletteRewardItemDto.getRewardItem();
+//			int quantity = rouletteRewardItemDto.getCount();
+//
+//			// マップにユーザIDが存在しない場合は格納する
+//			if (!userItemMap.containsKey(userId)) {
+//				userItemMap.put(userId, new HashMap<String, Integer>());
+//			}
+//
+//			Map<String, Integer> itemMap = userItemMap.get(userId);
+//			if (!itemMap.containsKey(itemName)) {
+//				itemMap.put(itemName, 0);
+//			}
+//			itemMap.put(itemName, itemMap.get(itemName) + quantity);
+//		}
+//
+//		// 各ユーザーのデータを出力
+//		for (Map.Entry<String, Map<String, Integer>> entry : userItemMap.entrySet()) {
+//			Map<String, Integer> itemQuantities = entry.getValue();
+//
+//			System.out.print("\"" + entry.getKey() + "\"");
+//
+//			for (String item : targetRewardItemList) {
+//				// アイテムが存在しない場合は0
+//				int quantity = itemQuantities.containsKey(item) ? itemQuantities.get(item) : 0;
+//				System.out.print(",\"" + quantity + "\"");
+//			}
+//			System.out.println();
+//		}
 //	}
 //
 //	@Override

@@ -1,4 +1,4 @@
-package com.oga.app.batch;
+package com.oga.app.batch.base;
 
 import com.oga.app.common.exception.ApplicationException;
 import com.oga.app.common.exception.SystemException;
