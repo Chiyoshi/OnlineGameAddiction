@@ -51,6 +51,13 @@ public abstract class RedstoneProviderBase {
 	}
 
 	/**
+	 * レッドストーン管理情報を削除する
+	 */
+	public void deleteAllRSManagement() {
+		RSManagementDao.getInstance().delete();
+	}
+	
+	/**
 	 * ユーザ情報を取得する
 	 * 
 	 * @param userId ユーザID

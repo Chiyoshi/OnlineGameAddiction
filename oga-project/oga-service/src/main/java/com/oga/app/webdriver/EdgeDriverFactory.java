@@ -6,34 +6,44 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeDriverService;
 import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.remote.service.DriverService;
 
-import com.oga.app.common.enums.YesNo;
-import com.oga.app.common.prop.OgaProperty;
 import com.oga.app.webdriver.factory.WebDriverFactory;
 
-public class EdgeDriverFactory implements WebDriverFactory {
+public class EdgeDriverFactory implements WebDriverFactory<EdgeOptions> {
+
+	private static final String DRIVER_PROPERTY_KEY = "webdriver.service.edge";
 
 	@Override
 	public WebDriver create() {
-		// WebDriverのパスを明示的に指定（バージョン138対応のmsedgedriver.exe）
-		EdgeDriverService edgeDriverService = new EdgeDriverService.Builder()
-				.usingDriverExecutable(new File(OgaProperty.getProperty("webdriver.service.edge")))
+		EdgeOptions options = (EdgeOptions) buildOptions();
+		return new EdgeDriver((EdgeDriverService) createDriverService(), options);
+	}
+
+	/**
+	 * WebDriverのパスを明示的に指定（バージョン138対応のmsedgedriver.exe）
+	 */
+	@Override
+	public DriverService createDriverService() {
+		return new EdgeDriverService.Builder()
+				.usingDriverExecutable(new File(resolveWebDriverPath(DRIVER_PROPERTY_KEY)))
 				.usingAnyFreePort()
 				.build();
+	}
 
-		EdgeOptions edgeOptions = new EdgeOptions();
+	@Override
+	public EdgeOptions buildOptions() {
+		EdgeOptions options = new EdgeOptions();
 		// SSL証明書の警告を無視する
-		edgeOptions.setAcceptInsecureCerts(true);
+		options.setAcceptInsecureCerts(true);
 		// 起動時にウィンドウを最大化
-		edgeOptions.addArguments("--start-maximized");
+		options.addArguments("--start-maximized");
 		// シークレットモード（InPrivateモード）を有効にする
-		edgeOptions.addArguments("-inprivate");
+		options.addArguments("-inprivate");
 
-		// ヘッドレスモードで起動する
-		if (YesNo.YES.getValue().equals(OgaProperty.getProperty("webdriver.mode.headless", "N"))) {
-			edgeOptions.addArguments("--headless=new");
+		if (isHeadlessModeEnabled()) {
+			options.addArguments("--headless=new");
 		}
-
-		return new EdgeDriver(edgeDriverService, edgeOptions);
+		return options;
 	}
 }

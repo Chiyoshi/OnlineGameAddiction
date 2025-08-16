@@ -1,5 +1,6 @@
 package com.oga.app.dataaccess.dao.sqlprovider;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
 import com.oga.app.common.utils.StringUtil;
@@ -7,7 +8,7 @@ import com.oga.app.dataaccess.entity.RSManagement;
 
 public class RSManagementSqlProvider {
 
-	public String findByPKey(final String userId) {
+	public String findByPKey(@Param("userId") final String userId) {
 		return new SQL() {
 			{
 				SELECT("*");
@@ -97,7 +98,7 @@ public class RSManagementSqlProvider {
 		}.toString();
 	}
 
-	public String delete(final String userId) {
+	public String delete(@Param("userId") final String userId) {
 		return new SQL() {
 			{
 				DELETE_FROM("rsManagement");

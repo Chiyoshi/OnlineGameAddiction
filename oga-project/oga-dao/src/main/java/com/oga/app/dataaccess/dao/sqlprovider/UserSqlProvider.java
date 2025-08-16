@@ -30,7 +30,7 @@ public class UserSqlProvider {
 		}.toString();
 	}
 
-	public String insert(final User user) {
+	public String insert(@Param("userId") final User user) {
 		return new SQL() {
 			{
 				INSERT_INTO("user");
@@ -44,7 +44,7 @@ public class UserSqlProvider {
 		}.toString();
 	}
 
-	public String update(final User user) {
+	public String update(@Param("userId") final User user) {
 		return new SQL() {
 			{
 				UPDATE("user");

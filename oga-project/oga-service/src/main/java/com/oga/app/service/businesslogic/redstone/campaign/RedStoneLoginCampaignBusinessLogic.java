@@ -212,13 +212,13 @@ public class RedStoneLoginCampaignBusinessLogic extends BusinessLogicBase<LoginC
 		}
 
 		// 既に本日分のログインキャンペーンを実施済みの場合はスキップする
-		if (baseDate.equals(rsManagement.getLastLoginCampaignDate())) {
+		if (null != loginCampaignDetails && baseDate.equals(rsManagement.getLastLoginCampaignDate())) {
 			LogUtil.info("本日のログインキャンペーンは実施済みのためスキップします。");
 			return false;
 		}
 
 		// 現在の進行度を確認して21日目まで達成している場合はスキップする
-		if (Integer.parseInt(loginCampaignDetails.getStage()) >= 21) {
+		if (null != loginCampaignDetails && Integer.parseInt(loginCampaignDetails.getStage()) >= 21) {
 			LogUtil.info("当月分のログインキャンペーンをすべて実施済みの場合はスキップします。");
 			return false;
 		}
@@ -301,6 +301,9 @@ public class RedStoneLoginCampaignBusinessLogic extends BusinessLogicBase<LoginC
 					+ masterRepositoryProvider.getItemName(loginCampaignHistory.getRewardItem1()) + "]");
 			LogUtil.info("[ログインキャンペーン処理] [コンプリートマス] [獲得アイテム："
 					+ masterRepositoryProvider.getItemName(loginCampaignHistory.getRewardItem2()) + "]");
+		} else if ("DONE".equals(response.getErrorInfo().getMessage())) {
+			LogUtil.info("[ログインキャンペーン処理] [コンプリートマス] [既に実施済み]");
+			return;
 		} else {
 			throw new ApplicationException("ログインキャンペーンAPIでエラーが発生しました：" + response.getErrorInfo().getMessage());
 		}
@@ -329,12 +332,11 @@ public class RedStoneLoginCampaignBusinessLogic extends BusinessLogicBase<LoginC
 	}
 
 	/**
-	 * ログインキャンペーン履歴を登録する
+	 * ログインキャンペーン履歴を登録または更新する
 	 * 
 	 * @param loginCampaignDetails ログインキャンペーン詳細情報
 	 */
 	private void insertLoginCampaignHistory(LoginCampaignHistory loginCampaignHistory) {
-		// ログインキャンペーン履歴を登録する
 		redstoneLoginCampaignProvider.insertLoginCampaignHistory(loginCampaignHistory);
 	}
 
@@ -385,19 +387,19 @@ public class RedStoneLoginCampaignBusinessLogic extends BusinessLogicBase<LoginC
 			break;
 		}
 		case LoginCampaignType.CMPLETE_CHAPTER1: {
-			rewardItemList = Arrays.asList(loginCampaignDetails.getCompleteItemChapter1().split(","));
+			rewardItemList = Arrays.asList(loginCampaignDetails.getCompleteItemChapter1().split(":"));
 			rewardItem1 = rewardItemList.get(0);
 			rewardItem2 = rewardItemList.get(1);
 			break;
 		}
 		case LoginCampaignType.CMPLETE_CHAPTER2: {
-			rewardItemList = Arrays.asList(loginCampaignDetails.getCompleteItemChapter2().split(","));
+			rewardItemList = Arrays.asList(loginCampaignDetails.getCompleteItemChapter2().split(":"));
 			rewardItem1 = rewardItemList.get(0);
 			rewardItem2 = rewardItemList.get(1);
 			break;
 		}
 		case LoginCampaignType.CMPLETE_CHAPTER3: {
-			rewardItemList = Arrays.asList(loginCampaignDetails.getCompleteItemChapter3().split(","));
+			rewardItemList = Arrays.asList(loginCampaignDetails.getCompleteItemChapter3().split(":"));
 			rewardItem1 = rewardItemList.get(0);
 			rewardItem2 = rewardItemList.get(1);
 			break;

@@ -65,6 +65,24 @@ public class LoginCampaignHistoryDao extends DaoBase {
 	}
 
 	/**
+	 * 主キーで指定したログインキャンペーン履歴の件数を取得する
+	 * 
+	 * @param userId ユーザID
+	 * @param targetMonth 対象月
+	 * @param targetDate 対象日
+	 * @param loginCampaignType ログインキャンペーン種別
+	 * @return
+	 */
+	public int countByPKey(String userId, String targetMonth, String targetDate, int loginCampaignType) {
+		SqlSessionFactory sqlSessionFactory = super.getSqlSessionFactory();
+
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+			LoginCampaignHistoryMapper mapper = session.getMapper(LoginCampaignHistoryMapper.class);
+			return mapper.countByPKey(userId, targetMonth, targetDate, loginCampaignType);
+		}
+	}
+
+	/**
 	 * ログインキャンペーン履歴を登録する
 	 * 
 	 * @param loginCampaignHistory ログインキャンペーン履歴

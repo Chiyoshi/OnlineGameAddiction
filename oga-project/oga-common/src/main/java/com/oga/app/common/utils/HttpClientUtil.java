@@ -37,11 +37,11 @@ public class HttpClientUtil {
 	 * 
 	 * @param urlStr 接続先URL
 	 * @param requestProperties リクエストプロパティ
-	 * @param formParams FORMパラメータ
+	 * @param jsonPayload JSONペイロード
 	 * @return HTMLテキスト
 	 */
-	public static String sendPost(String urlStr, Map<String, String> requestProperties, Map<String, String> formParams) {
-		return request(urlStr, REQUEST_METHOD_POST, requestProperties, formParams);
+	public static String sendPost(String urlStr, Map<String, String> requestProperties, String jsonPayload) {
+		return request(urlStr, REQUEST_METHOD_POST, requestProperties, jsonPayload);
 	}
 
 	/**
@@ -54,7 +54,8 @@ public class HttpClientUtil {
 	 * @return HTMLテキスト
 	 */
 	@SuppressWarnings("deprecation")
-	private static String request(String urlStr, String requestMethod, Map<String, String> requestProperties, Map<String, String> formParams) {
+	private static String request(String urlStr, String requestMethod, Map<String, String> requestProperties,
+			String jsonPayload) {
 
 		StringBuilder sb = new StringBuilder();
 
@@ -72,13 +73,11 @@ public class HttpClientUtil {
 				con.setRequestProperty(entry.getKey(), entry.getValue());
 			}
 
-			// FORMパラメータを設定する
-			if (REQUEST_METHOD_POST.equals(requestMethod) && formParams != null) {
-				// URL接続にデータを書き込みできるようにする
+			// JSONペイロード
+			if (REQUEST_METHOD_POST.equals(requestMethod) && !StringUtil.isNullOrEmpty(jsonPayload)) {
 				con.setDoOutput(true);
-				// データ書き込み
 				try (OutputStreamWriter osw = new OutputStreamWriter(con.getOutputStream())) {
-					osw.write(createFormParameter(formParams));
+					osw.write(jsonPayload);
 				}
 			}
 
@@ -131,7 +130,7 @@ public class HttpClientUtil {
 	 * @param map FORMパラメータが格納されたMap
 	 * @return FORMパラメータの文字列
 	 */
-	private static String createFormParameter(Map<String, String> map) {
+	private static String createFormParameter(Map<String, Object> map) {
 		return convertMap2KeyValueStr(map, "&");
 	}
 
@@ -142,10 +141,10 @@ public class HttpClientUtil {
 	 * @param delimiter 区切り文字
 	 * @return FORMパラメータの文字列
 	 */
-	private static String convertMap2KeyValueStr(Map<String, String> map, String delimiter) {
+	private static String convertMap2KeyValueStr(Map<String, Object> map, String delimiter) {
 		StringBuilder sb = new StringBuilder();
 		boolean isFirstParam = true;
-		for (Map.Entry<String, String> entry : map.entrySet()) {
+		for (Map.Entry<String, Object> entry : map.entrySet()) {
 			if (!isFirstParam) {
 				sb.append(delimiter);
 			}

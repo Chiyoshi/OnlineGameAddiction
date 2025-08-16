@@ -25,6 +25,13 @@ public interface LoginCampaignHistoryMapper {
 	@SelectProvider(type = LoginCampaignHistorySqlProvider.class, method = "findAll")
 	List<LoginCampaignHistory> findAll();
 
+	@SelectProvider(type = LoginCampaignHistorySqlProvider.class, method = "countByPKey")
+	int countByPKey(
+			@Param("userId") String userId,
+			@Param("targetMonth") String targetMonth,
+			@Param("targetDate") String targetDate,
+			@Param("loginCampaignType") int loginCampaignType);
+
 	@InsertProvider(type = LoginCampaignHistorySqlProvider.class, method = "insert")
 	void insert(LoginCampaignHistory loginCampaignHistory);
 

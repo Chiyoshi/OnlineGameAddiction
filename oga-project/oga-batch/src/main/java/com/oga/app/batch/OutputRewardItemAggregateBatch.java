@@ -8,16 +8,11 @@
 //import java.util.Map;
 //
 //import com.oga.app.batch.base.BatchBase;
-//import com.oga.app.common.enums.ServiceType;
 //import com.oga.app.common.exception.ApplicationException;
 //import com.oga.app.common.exception.SystemException;
-//import com.oga.app.common.prop.OgaProperty;
 //import com.oga.app.common.utils.FileUtil;
-//import com.oga.app.common.utils.LogUtil;
 //import com.oga.app.common.utils.StringUtil;
 //import com.oga.app.dataaccess.dto.RouletteRewardItemDto;
-//import com.oga.app.master.model.Campaign;
-//import com.oga.app.service.provider.CampaignProvider;
 //import com.oga.app.service.provider.DailyWorkResultProvider;
 //
 //public class OutputRewardItemAggregateBatch extends BatchBase {
@@ -25,49 +20,20 @@
 //	/** CSV格納先ディレクトリ */
 //	private String OTUPUT_CSV_PATH = null;
 //
-//	/** キャンペーン情報 */
-//	private Campaign campaign;
-//
 //	@Override
 //	public void pre(String[] args) throws ApplicationException, SystemException {
 //
-//		// 引数チェック
-//		if (args.length < 1) {
-//			throw new ApplicationException("引数が設定されていません。：キャンペーンID");
-//		}
-//
-//		// キャンペーンIDを設定する
-//		String campaignId = args[0];
-//
 //		// 環境変数からパスを取得する
-//		String outputCsvFolder = System.getProperty("output.dir");
+//		OTUPUT_CSV_PATH = System.getProperty("output.dir");
 //
-//		if (StringUtil.isNullOrEmpty(outputCsvFolder)) {
+//		if (StringUtil.isNullOrEmpty(OTUPUT_CSV_PATH)) {
 //			throw new SystemException("環境変数が設定されていません。：output.dir");
 //		}
 //
 //		// ディレクトリ存在チェック
-//		if (!FileUtil.isExists(outputCsvFolder)) {
-//			throw new ApplicationException("CSV出力先のフォルダが存在しません。：" + outputCsvFolder);
+//		if (!FileUtil.isExists(OTUPUT_CSV_PATH)) {
+//			throw new ApplicationException("CSV出力先のフォルダが存在しません。：" + OTUPUT_CSV_PATH);
 //		}
-//
-//		//		// ルーレットのディレクトリが存在しない場合は作成する
-//		//		outputCsvPath = outputCsvPath + "\\roulette";
-//		//
-//		//		if (!FileUtil.isExists(outputCsvPath)) {
-//		//			FileUtil.createDirectory(outputCsvPath);
-//		//		}
-//
-//		// キャンペーン情報を取得する
-//		this.campaign = CampaignProvider.getInstance().getCampaign(campaignId);
-//
-//		// キャンペーン情報が登録されていない場合はエラーとする
-//		if (this.campaign == null) {
-//			throw new ApplicationException("対象のキャンペーン情報が登録されていません");
-//		}
-//
-//		// CSVファイルパス
-//		this.OTUPUT_CSV_PATH = outputCsvFolder + "\\" + this.campaign.getCampaignId() + ".csv";
 //	}
 //
 //	@Override
@@ -76,18 +42,14 @@
 //		// プロパティファイルから集計対象のアイテム一覧を取得する
 //		String items = null;
 //
-//		// キャンペーン種別が「1：ログインキャンペーン」の場合
-//		if (ServiceType.LOGINCAMPAIGN.getValue().equals(campaign.getCampaignType())) {
-//			items = OgaProperty.getProperty("redstone.logincampaign.aggregate.items");
-//		}
-//		// キャンペーン種別が「4：ルーレット」の場合
-//		else if (ServiceType.ROULETTE.getValue().equals(campaign.getCampaignType())) {
-//			items = OgaProperty.getProperty("redstone.roulette.aggregate.items");
-//		}
-//		
-//		
-//		LogUtil.info("[集計対象] [" + items + "]");
-//		LogUtil.info("[出力先] [" + this.OTUPUT_CSV_PATH + "]");
+////		// キャンペーン種別が「1：ログインキャンペーン」の場合
+////		if (ServiceType.LOGINCAMPAIGN.getValue().equals(campaign.getCampaignType())) {
+////			items = OgaProperty.getProperty("redstone.logincampaign.aggregate.items");
+////		}
+////		// キャンペーン種別が「4：ルーレット」の場合
+////		else if (ServiceType.ROULETTE.getValue().equals(campaign.getCampaignType())) {
+////			items = OgaProperty.getProperty("redstone.roulette.aggregate.items");
+////		}
 //
 //		// カンマ区切りで分割する
 //		List<String> targetRewardItemList = Arrays.asList(items.split(","));
@@ -127,18 +89,18 @@
 //		}
 //
 //		// 各ユーザーのデータを出力
-//		for (Map.Entry<String, Map<String, Integer>> entry : userItemMap.entrySet()) {
-//			Map<String, Integer> itemQuantities = entry.getValue();
-//
-//			System.out.print("\"" + entry.getKey() + "\"");
-//
-//			for (String item : targetRewardItemList) {
-//				// アイテムが存在しない場合は0
-//				int quantity = itemQuantities.containsKey(item) ? itemQuantities.get(item) : 0;
-//				System.out.print(",\"" + quantity + "\"");
-//			}
-//			System.out.println();
-//		}
+////		for (Map.Entry<String, Map<String, Integer>> entry : userItemMap.entrySet()) {
+////			Map<String, Integer> itemQuantities = entry.getValue();
+////
+////			System.out.print("\"" + entry.getKey() + "\"");
+////
+////			for (String item : targetRewardItemList) {
+////				// アイテムが存在しない場合は0
+////				int quantity = itemQuantities.containsKey(item) ? itemQuantities.get(item) : 0;
+////				System.out.print(",\"" + quantity + "\"");
+////			}
+////			System.out.println();
+////		}
 //	}
 //
 //	@Override

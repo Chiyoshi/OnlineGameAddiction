@@ -98,7 +98,7 @@ public class ImportCsvFileBatch extends BatchBase {
 
 	private void insertRSManagement(List<String[]> dataList) {
 		LogUtil.info("[DELETE] [RSMANAGEMENT] [START]");
-		RedstoneBatchProvider.getInstance().deleteAllUser();
+		RedstoneBatchProvider.getInstance().deleteAllRSManagement();
 		LogUtil.info("[DELETE] [RSMANAGEMENT] [END]");
 
 		LogUtil.info("[INSERT] [RSMANAGEMENT] [START]");

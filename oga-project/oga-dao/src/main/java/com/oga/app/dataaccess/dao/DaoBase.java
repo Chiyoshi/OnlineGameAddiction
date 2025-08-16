@@ -1,6 +1,7 @@
 package com.oga.app.dataaccess.dao;
 
-import java.io.InputStream;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.Properties;
 
 import org.apache.ibatis.io.Resources;
@@ -14,18 +15,12 @@ public class DaoBase {
 
 	static {
 		if (sqlSessionFactory == null) {
-			try {
-				String resource = "mybatis-config.xml";
-				InputStream inputStream = Resources.getResourceAsStream(resource);
-
-				Properties properties = new Properties();
-				properties.setProperty("db.url", System.getProperty("db.url"));
-				// properties.setProperty("db.username", System.getProperty("db.username"));
-				// properties.setProperty("db.password", System.getProperty("db.password"));
-
-				sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
-			} catch (Exception e) {
-				throw new RuntimeException("Error initializing MyBatis class. Cause: " + e);
+			try (Reader reader = Resources.getResourceAsReader("mybatis-config.xml")) {
+				Properties orop = new Properties();
+				orop.setProperty("db.url", System.getProperty("db.url"));
+				sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader, orop);
+			} catch (IOException e) {
+				throw new RuntimeException("SqlSessionFactoryの初期化に失敗しました", e);
 			}
 		}
 	}

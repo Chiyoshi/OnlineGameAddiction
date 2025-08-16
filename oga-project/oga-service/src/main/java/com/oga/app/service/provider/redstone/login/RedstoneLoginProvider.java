@@ -6,11 +6,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeOptions;
 
 import com.oga.app.common.utils.CommonUtil;
 import com.oga.app.master.provider.MasterRepositoryProvider;
 import com.oga.app.service.provider.base.SeleniumProviderBase;
 import com.oga.app.webdriver.EdgeDriverFactory;
+import com.oga.app.webdriver.factory.WebDriverFactory;
 
 public class RedstoneLoginProvider extends SeleniumProviderBase {
 
@@ -46,7 +48,8 @@ public class RedstoneLoginProvider extends SeleniumProviderBase {
 		}
 
 		// ブラウザを起動する
-		this.driver = new EdgeDriverFactory().create();
+		WebDriverFactory<EdgeOptions> factory = new EdgeDriverFactory();
+		this.driver = factory.create();
 	}
 
 	/**

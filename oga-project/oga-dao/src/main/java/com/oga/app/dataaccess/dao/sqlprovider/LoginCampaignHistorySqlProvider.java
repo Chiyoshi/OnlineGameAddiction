@@ -40,6 +40,24 @@ public class LoginCampaignHistorySqlProvider {
 		}.toString();
 	}
 
+	public String countByPKey(
+			@Param("userId") final String userId,
+			@Param("targetMonth") String targetMonth,
+			@Param("targetDate") String targetDate,
+			@Param("loginCampaignType") int loginCampaignType) {
+		return new SQL() {
+			{
+				SELECT("count(*)");
+				FROM("loginCampaignHistory");
+				WHERE("userId = #{userId}");
+				WHERE("targetMonth = #{targetMonth}");
+				WHERE("targetDate = #{targetDate}");
+				WHERE("loginCampaignType = #{loginCampaignType}");
+				WHERE("deleteFlg = 'N'");
+			}
+		}.toString();
+	}
+
 	public String insert(final LoginCampaignHistory loginCampaignHistory) {
 		return new SQL() {
 			{

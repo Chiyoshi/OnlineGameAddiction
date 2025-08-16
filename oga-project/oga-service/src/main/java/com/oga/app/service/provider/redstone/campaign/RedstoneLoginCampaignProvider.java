@@ -1,6 +1,5 @@
 package com.oga.app.service.provider.redstone.campaign;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,7 +12,6 @@ import com.oga.app.dataaccess.dao.LoginCampaignDetailsDao;
 import com.oga.app.dataaccess.dao.LoginCampaignHistoryDao;
 import com.oga.app.dataaccess.entity.LoginCampaignDetails;
 import com.oga.app.dataaccess.entity.LoginCampaignHistory;
-import com.oga.app.master.model.RedstoneApi;
 import com.oga.app.master.provider.MasterRepositoryProvider;
 import com.oga.app.service.provider.base.RedstoneApiProviderBase;
 import com.oga.app.service.response.LoginResult;
@@ -75,7 +73,6 @@ public class RedstoneLoginCampaignProvider extends RedstoneApiProviderBase {
 	 * @param loginCampaignDetails ログインキャンペーン詳細
 	 */
 	public void updateLoginCampaignDetails(LoginCampaignDetails loginCampaignDetails) {
-		// 件数取得
 		int count = countLoginCampaignDetails(loginCampaignDetails.getUserId(), loginCampaignDetails.getTargetMonth());
 
 		if (count > 0) {
@@ -86,12 +83,34 @@ public class RedstoneLoginCampaignProvider extends RedstoneApiProviderBase {
 	}
 
 	/**
-	 * ログインキャンペーン履歴を登録する
+	 * ログインキャンペーン履歴の件数を取得する
+	 * 
+	 * @param userId ユーザID
+	 * @param targetMonth 対象月
+	 * @param targetDate 対象日
+	 * @param loginCampaignType ログインキャンペーン種別
+	 * @return 件数
+	 */
+	public int countLoginCampaignHistory(String userId, String targetMonth, String targetDate,
+			int loginCampaignType) {
+		return LoginCampaignHistoryDao.getInstance().countByPKey(userId, targetMonth, targetDate, loginCampaignType);
+	}
+
+	/**
+	 * ログインキャンペーン履歴を登録または更新する
 	 * 
 	 * @param loginCampaignHistory ログインキャンペーン履歴
 	 */
 	public void insertLoginCampaignHistory(LoginCampaignHistory loginCampaignHistory) {
-		LoginCampaignHistoryDao.getInstance().insert(loginCampaignHistory);
+		// TODO: 本来は発生しないはずの一意制約が発生したため同じデータで更新する
+		int count = countLoginCampaignHistory(loginCampaignHistory.getUserId(), loginCampaignHistory.getTargetMonth(),
+				loginCampaignHistory.getTargetDate(), loginCampaignHistory.getLoginCampaignType());
+
+		if (count > 0) {
+			LoginCampaignHistoryDao.getInstance().update(loginCampaignHistory);
+		} else {
+			LoginCampaignHistoryDao.getInstance().insert(loginCampaignHistory);
+		}
 	}
 
 	/**
@@ -106,7 +125,8 @@ public class RedstoneLoginCampaignProvider extends RedstoneApiProviderBase {
 		String url = masterRepositoryProvider.getRedstoneApiUrl("redstone.api.redslogin.state");
 
 		// リクエストプロパティ
-		Map<String, String> requestProperties = createRequestProperties(loginResult.getAccessToken(), loginResult.getHttpTransactionLog());
+		Map<String, String> requestProperties = createRequestProperties(loginResult.getAccessToken(),
+				loginResult.getHttpTransactionLog());
 
 		// ログインキャンペーン情報照会
 		String jsonString = HttpClientUtil.sendPost(url, requestProperties, null);
@@ -127,19 +147,20 @@ public class RedstoneLoginCampaignProvider extends RedstoneApiProviderBase {
 	 * @param loginCampaignType ログインキャンペーン種別(通常時：0、コンプリート：1～3)
 	 * @throws SystemException 
 	 */
-	public LoginCampaignResponse performLoginCampaignApi(LoginResult loginResult, LoginCampaignType loginCampaignType) throws SystemException {
+	public LoginCampaignResponse performLoginCampaignApi(LoginResult loginResult, LoginCampaignType loginCampaignType)
+			throws SystemException {
 		// ログインキャンペーンAPIのURLを取得する
-		RedstoneApi redstoneApi = masterRepositoryProvider.getRedstoneApiRepository().get("redstone.api.redslogin");
+		String url = masterRepositoryProvider.getRedstoneApiUrl("redstone.api.redslogin");
 
 		// リクエストプロパティ
-		Map<String, String> requestProperties = createRequestProperties(loginResult.getAccessToken(), loginResult.getHttpTransactionLog());
+		Map<String, String> requestProperties = createRequestProperties(loginResult.getAccessToken(),
+				loginResult.getHttpTransactionLog());
 
 		// リクエストパラメータ
-		Map<String, String> formParams = new HashMap<String, String>();
-		formParams.put("chapter", loginCampaignType.getValue());
+		String jsonPayload = "{\"chapter\": " + loginCampaignType.getValue() + "}";
 
 		// ログインキャンペーン
-		String jsonString = HttpClientUtil.sendPost(redstoneApi.getUrl(), requestProperties, formParams);
+		String jsonString = HttpClientUtil.sendPost(url, requestProperties, jsonPayload);
 
 		return loadJsonStringApiResponse(jsonString, LoginCampaignResponse.class);
 	}

@@ -26,7 +26,7 @@ public class LoginCampaignHistory {
 	private String stage;
 
 	/** ログインキャンペーン種別 */
-	private String loginCampaignType;
+	private int loginCampaignType;
 
 	/** 獲得アイテム1 */
 	private String rewardItem1;

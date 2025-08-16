@@ -7,6 +7,7 @@ import com.oga.app.batch.base.BatchBase;
 import com.oga.app.common.enums.YesNo;
 import com.oga.app.common.exception.ApplicationException;
 import com.oga.app.common.exception.SystemException;
+import com.oga.app.common.prop.OgaProperty;
 import com.oga.app.common.utils.DateUtil;
 import com.oga.app.common.utils.LogUtil;
 import com.oga.app.dataaccess.entity.LoginCampaignDetails;
@@ -24,6 +25,12 @@ import com.oga.app.service.provider.redstone.login.RedstoneLoginProvider;
 
 public class RedstoneDailyBatch extends BatchBase {
 
+	/** 処理件数の上限 */
+	private int SUCCESS_LIMIT_COUNT;
+
+	/** エラー件数の上限 */
+	private int ERROR_LIMIT_COUNT;
+
 	/** 処理対象 */
 	private List<RSManagement> targetList = new ArrayList<RSManagement>();
 
@@ -35,6 +42,9 @@ public class RedstoneDailyBatch extends BatchBase {
 
 	@Override
 	public void pre(String[] args) throws ApplicationException, SystemException {
+
+		SUCCESS_LIMIT_COUNT = Integer.parseInt(OgaProperty.getProperty("success.limit.count", "100"));
+		ERROR_LIMIT_COUNT = Integer.parseInt(OgaProperty.getProperty("error.limit.count", "100"));
 
 		List<RSManagement> rsManagementList = RedstoneLoginCampaignProvider.getInstance().fetchRSManagementList();
 
@@ -52,11 +62,13 @@ public class RedstoneDailyBatch extends BatchBase {
 	@Override
 	public void exec() throws ApplicationException, SystemException {
 
-		int execCount = 0;
-		
+		int totalErrorCount = 0;
+
 		boolean isBrowserInitialized = false;
 
-		for (RSManagement rsManagement : targetList) {
+		for (int i = 0; i < targetList.size(); i++) {
+
+			RSManagement rsManagement = targetList.get(i);
 
 			// ログ出力用のユーザIDを設定する
 			LogUtil.setPropertyUserId(rsManagement.getUserId());
@@ -66,12 +78,27 @@ public class RedstoneDailyBatch extends BatchBase {
 			//////////////////////////////////////////////////////
 			User user = RedstoneLoginCampaignProvider.getInstance().fetchUserInfo(rsManagement.getUserId());
 
-			LoginServiceBean loginServiceBean = createLoginServiceBean(user, isBrowserInitialized);
+			LoginServiceBean loginServiceBean = null;
 
-			if (!login(loginServiceBean)) {
-				// ログイン認証失敗時はブラウザを再起動するため初期化フラグをfalseに設定する
-				isBrowserInitialized = false;
-				continue;
+			boolean success = false;
+
+			while (!success) {
+				loginServiceBean = createLoginServiceBean(user, isBrowserInitialized);
+
+				if (!login(loginServiceBean)) {
+					// ログイン認証失敗時はブラウザを再起動するため初期化フラグをfalseに設定する
+					isBrowserInitialized = false;
+					// エラー件数を加算する
+					totalErrorCount++;
+
+					if (totalErrorCount >= ERROR_LIMIT_COUNT) {
+						LogUtil.error("エラー件数が上限に達したため強制終了します");
+						return;
+					}
+				} else {
+					// ログイン認証が成功したためループから抜ける
+					success = true;
+				}
 			}
 
 			isBrowserInitialized = true;
@@ -101,11 +128,9 @@ public class RedstoneDailyBatch extends BatchBase {
 			// ログアウト処理
 			//////////////////////////////////////////////////////
 			logout(loginServiceBean);
-			
-			execCount++;
-			
-			if (execCount >= 100) {
-				LogUtil.info("120件処理したので休憩してください");
+
+			if (i >= SUCCESS_LIMIT_COUNT) {
+				LogUtil.info("処理件数が上限に達したため処理終了します");
 				return;
 			}
 		}
@@ -128,11 +153,13 @@ public class RedstoneDailyBatch extends BatchBase {
 	 * @return
 	 */
 	private boolean shouldProcess(RSManagement rsManagement, String baseDateSql) {
-		if (YesNo.YES.getValue().equals(rsManagement.getDailyRewardFlg()) && !baseDateSql.equals(rsManagement.getLastDailyRewardDate())) {
+		if (YesNo.YES.getValue().equals(rsManagement.getDailyRewardFlg())
+				&& !baseDateSql.equals(rsManagement.getLastDailyRewardDate())) {
 			return true;
 		}
 
-		if (YesNo.YES.getValue().equals(rsManagement.getLoginCampaignFlg()) && !baseDateSql.equals(rsManagement.getLastLoginCampaignDate())) {
+		if (YesNo.YES.getValue().equals(rsManagement.getLoginCampaignFlg())
+				&& !baseDateSql.equals(rsManagement.getLastLoginCampaignDate())) {
 			LoginCampaignDetails details = RedstoneLoginCampaignProvider.getInstance()
 					.fetchLoginCampaignDetails(rsManagement.getUserId(), DateUtil.getBaseMonth());
 
@@ -141,7 +168,8 @@ public class RedstoneDailyBatch extends BatchBase {
 			}
 		}
 
-		if (YesNo.YES.getValue().equals(rsManagement.getRouletteFlg()) && !baseDateSql.equals(rsManagement.getLastRouletteDate())) {
+		if (YesNo.YES.getValue().equals(rsManagement.getRouletteFlg())
+				&& !baseDateSql.equals(rsManagement.getLastRouletteDate())) {
 			return true;
 		}
 		return false;
