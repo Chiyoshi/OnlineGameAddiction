@@ -1,8 +1,20 @@
 {
   "item": [
     {
+      "item_code": "159",
+      "item_name": "RED STONEと達人のバッジ"
+    },
+    {
+      "item_code": "244",
+      "item_name": "ミニマジックバッグ"
+    },
+    {
       "item_code": "263",
       "item_name": "超強力魔力解除キット"
+    },
+    {
+      "item_code": "277",
+      "item_name": "異次元ボックス"
     },
     {
       "item_code": "330",
@@ -13,8 +25,24 @@
       "item_name": "ポータル・パワーキット[1時間版]"
     },
     {
+      "item_code": "446",
+      "item_name": "風の羽[10個]"
+    },
+    {
+      "item_code": "455",
+      "item_name": "俊足のバッジ"
+    },
+    {
       "item_code": "603",
       "item_name": "ミニハイパーシャインパウダー Lite"
+    },
+    {
+      "item_code": "657",
+      "item_name": "超越の刃油"
+    },
+    {
+      "item_code": "659",
+      "item_name": "超越の魔力神秘水"
     },
     {
       "item_code": "666",
@@ -59,10 +87,18 @@
     {
       "item_code": "754",
       "item_name": "金色の魔力増幅魔法書"
-    },    
+    },
+    {
+      "item_code": "1267",
+      "item_name": "爆竜の心臓"
+    },
     {
       "item_code": "1551",
       "item_name": "爆竜の心臓"
+    },
+    {
+      "item_code": "1641",
+      "item_name": "マジックバッグ"
     },
     {
       "item_code": "1670",
@@ -73,6 +109,14 @@
       "item_name": "上級共通ブーストバッジ[3日]"
     },
     {
+      "item_code": "1785",
+      "item_name": "クリーチャーメダル"
+    },
+    {
+      "item_code": "1820",
+      "item_name": "悟りの書"
+    },
+    {
       "item_code": "1828",
       "item_name": "ユスピナのクリスタル"
     },
@@ -81,8 +125,20 @@
       "item_name": "ペブルコクーンパッケージ[3個]"
     },
     {
+      "item_code": "3285",
+      "item_name": "覚醒石"
+    },
+    {
+      "item_code": "3286",
+      "item_name": "赤い覚醒石"
+    },
+    {
       "item_code": "3254",
       "item_name": "ソーラーコクーン[E]"
+    },
+    {
+      "item_code": "3305",
+      "item_name": "ログインコンプBox"
     },
     {
       "item_code": "3536",
