@@ -17,6 +17,12 @@
       "campaign_name": "20周年後夜祭 Red'sルーレット",
       "start_date": "2025-03-27",
       "end_date": "2025-04-17"
+    },
+    {
+      "campaign_id": "CPR202604",
+      "campaign_name": "GW Red'sルーレット",
+      "start_date": "2026-04-23",
+      "end_date": "2026-05-14"
     }
   ]
 }
