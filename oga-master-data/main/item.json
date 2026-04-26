@@ -1,6 +1,14 @@
 {
   "item": [
     {
+      "item_code": "33",
+      "item_name": "スキル再配分巻物"
+    },
+    {
+      "item_code": "34",
+      "item_name": "ステータス再配分巻物"
+    },
+    {
       "item_code": "159",
       "item_name": "RED STONEと達人のバッジ"
     },
@@ -93,6 +101,10 @@
       "item_name": "爆竜の心臓"
     },
     {
+      "item_code": "1290",
+      "item_name": "リヒールバッジ"
+    },
+    {
       "item_code": "1551",
       "item_name": "爆竜の心臓"
     },
@@ -139,6 +151,10 @@
     {
       "item_code": "3305",
       "item_name": "スーパーロト[取引不可]"
+    },
+    {
+      "item_code": "3518",
+      "item_name": "【SR】確定コクーン[E]"
     },
     {
       "item_code": "3536",
